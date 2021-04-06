@@ -20,18 +20,18 @@ function Homepage() {
       <div className="Homepage">
         <div className="container text-center">
           <h1 className="mb-4 font-weight-bold">BookWorm</h1>
-          <p className="lead">Books are a uniquely portable magic</p>
+          <p className="lead">Books: A Uniquely Portable Magic</p>
           {currentUser
               ? <h2>
                 Welcome Back, {currentUser.firstName || currentUser.username}!
               </h2>
               : (
                   <p>
-                    <Link className="btn btn-secondary font-weight-bold mr-3"
+                    <Link className="btn btn-primary font-weight-bold mr-3"
                           to="/login">
                       Log in
                     </Link>
-                    <Link className="btn btn-secondary font-weight-bold"
+                    <Link className="btn btn-primary font-weight-bold"
                           to="/signup">
                       Sign up
                     </Link>

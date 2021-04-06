@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-// import Alert from "../common/Alert";
+import Alert from "../common/Alert";
 
 /** Login form.
  *
  * Shows form and manages update to state on changes.
  * On submission:
  * - calls login function prop
- * - redirects to /companies route
+ * - redirects to /bookshelf route
  *
  * Routes -> LoginForm -> Alert
  * Routed as /login
@@ -30,14 +30,14 @@ function LoginForm({ login }) {
 
   /** Handle form submit:
    *
-   * Calls login func prop and, if successful, redirect to /companies.
+   * Calls login func prop and, if successful, redirect to /bookshelf
    */
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     let result = await login(formData);
     if (result.success) {
-      history.push("/companies");
+      history.push("/bookshelf");
     } else {
       setFormErrors(result.errors);
     }
@@ -81,9 +81,9 @@ function LoginForm({ login }) {
                   />
                 </div>
 
-                {/* {formErrors.length
+                {formErrors.length
                     ? <Alert type="danger" messages={formErrors} />
-                    : null} */}
+                    : null}
 
                 <button
                     className="btn btn-primary float-right"

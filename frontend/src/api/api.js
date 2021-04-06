@@ -10,7 +10,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
  *
  */
 
-class BookappApi {
+class BookWormApi {
   // the token for interactive with the API will be stored here.
   static token;
 
@@ -18,7 +18,7 @@ class BookappApi {
     console.debug("API Call:", endpoint, data, method);
 
     const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${BookappApi.token}` };
+    const headers = { Authorization: `Bearer ${BookWormApi.token}` };
     const params = (method === "get")
         ? data
         : {};
@@ -41,32 +41,32 @@ class BookappApi {
     return res.user;
   }
 
-//   /** Get companies (filtered by name if not undefined) */
+  /** Get companies (filtered by name if not undefined) */
 
-//   static async getCompanies(name) {
-//     let res = await this.request("companies", { name });
-//     return res.companies;
-//   }
+  static async getCompanies(name) {
+    let res = await this.request("companies", { name });
+    return res.companies;
+  }
 
-//   /** Get details on a company by handle. */
+  /** Get details on a company by handle. */
 
-//   static async getCompany(handle) {
-//     let res = await this.request(`companies/${handle}`);
-//     return res.company;
-//   }
+  static async getCompany(handle) {
+    let res = await this.request(`companies/${handle}`);
+    return res.company;
+  }
 
-//   /** Get list of jobs (filtered by title if not undefined) */
+  /** Get list of jobs (filtered by title if not undefined) */
 
-//   static async getJobs(title) {
-//     let res = await this.request("jobs", { title });
-//     return res.jobs;
-//   }
+  // static async getJobs(title) {
+  //   let res = await this.request("jobs", { title });
+  //   return res.jobs;
+  // }
 
-//   /** Apply to a job */
+  // /** Apply to a job */
 
-//   static async applyToJob(username, id) {
-//     await this.request(`users/${username}/jobs/${id}`, {}, "post");
-//   }
+  // static async applyToJob(username, id) {
+  //   await this.request(`users/${username}/jobs/${id}`, {}, "post");
+  // }
 
   /** Get token for login from username, password. */
 
@@ -91,4 +91,4 @@ class BookappApi {
 }
 
 
-export default BookappApi;
+export default BookWormApi;

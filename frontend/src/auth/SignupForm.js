@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-// import Alert from "../common/Alert";
+import Alert from "../common/Alert";
 
 /** Signup form.
  *
  * Shows form and manages update to state on changes.
  * On submission:
  * - calls signup function prop
- * - redirects to / route
+ * - redirects to /companies route
  *
  * Routes -> SignupForm -> Alert
  * Routed as /signup
@@ -33,14 +33,14 @@ function SignupForm({ signup }) {
 
   /** Handle form submit:
    *
-   * Calls login func prop and, if successful, redirect to /.
+   * Calls login func prop and, if successful, redirect to /companies.
    */
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     let result = await signup(formData);
     if (result.success) {
-      history.push("/");
+      history.push("/companies");
     } else {
       setFormErrors(result.errors);
     }
@@ -107,11 +107,11 @@ function SignupForm({ signup }) {
                       onChange={handleChange}
                   />
                 </div>
-{/* 
+
                 {formErrors.length
                     ? <Alert type="danger" messages={formErrors} />
                     : null
-                } */}
+                }
 
                 <button
                     type="submit"

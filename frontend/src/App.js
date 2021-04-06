@@ -1,20 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import useLocalStorage from "./hooks/useLocalStorage";
-import Navigation from "./navroutes/Navigation";
-import Routes from "./navroutes/Routes";
-// import LoadingSpinner from "./common/LoadingSpinner";
-import BookappApi from "./api/api";
+import Navigation from "./routes-nav/Navigation";
+import Routes from "./routes-nav/Routes";
+import LoadingSpinner from "./common/LoadingSpinner";
+import BookWormApi from "./api/api";
 import UserContext from "./auth/UserContext";
 import jwt from "jsonwebtoken";
 
 // Key name for storing token in localStorage for "remember me" re-login
-export const TOKEN_STORAGE_ID = "bookapp-token";
+export const TOKEN_STORAGE_ID = "bookworm-token";
+
+/** BookWorm application.
+ *
+ * - infoLoaded: has user data been pulled from API?
+ *   (this manages spinner for "loading...")
+ *
+ * - currentUser: user obj from API. This becomes the canonical way to tell
+ *   if someone is logged in. This is passed around via context throughout app.
+ *
+ * - token: for logged in users, this is their authentication JWT.
+ *   Is required to be set for most API calls. This is initially read from
+ *   localStorage and synced to there via the useLocalStorage hook.
+ *
+ * App -> Routes
+ */
 
 
 function App() {
   const [infoLoaded, setInfoLoaded] = useState(false);
-  // const [applicationIds, setApplicationIds] = useState(new Set([]));
+  const [applicationIds, setApplicationIds] = useState(new Set([]));
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
@@ -25,7 +40,6 @@ function App() {
       "token=", token,
   );
 
-  
   // Load user info from API. Until a user is logged in and they have a token,
   // this should not run. It only needs to re-run when a user logs out, so
   // the value of the token is a dependency for this effect.
@@ -38,10 +52,10 @@ function App() {
         try {
           let { username } = jwt.decode(token);
           // put the token on the Api class so it can use it to call the API.
-          BookappApi.token = token;
-          let currentUser = await BookappApi.getCurrentUser(username);
+          BookWormApi.token = token;
+          let currentUser = await BookWormApi.getCurrentUser(username);
           setCurrentUser(currentUser);
-          // setApplicationIds(new Set(currentUser.applications));
+          setApplicationIds(new Set(currentUser.applications));
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);
           setCurrentUser(null);
@@ -71,7 +85,7 @@ function App() {
    */
   async function signup(signupData) {
     try {
-      let token = await BookappApi.signup(signupData);
+      let token = await BookWormApi.signup(signupData);
       setToken(token);
       return { success: true };
     } catch (errors) {
@@ -86,7 +100,7 @@ function App() {
    */
   async function login(loginData) {
     try {
-      let token = await BookappApi.login(loginData);
+      let token = await BookWormApi.login(loginData);
       setToken(token);
       return { success: true };
     } catch (errors) {
@@ -95,18 +109,31 @@ function App() {
     }
   }
 
-  
+  /** Checks if a job has been applied for. */
+  // function hasAppliedToJob(id) {
+  //   return applicationIds.has(id);
+  // }
+
+  // /** Apply to a job: make API call and update set of application IDs. */
+  // function applyToJob(id) {
+  //   if (hasAppliedToJob(id)) return;
+  //   BookWormApi.applyToJob(currentUser.username, id);
+  //   setApplicationIds(new Set([...applicationIds, id]));
+  // }
+
+  if (!infoLoaded) return <LoadingSpinner />;
+
   return (
-    <BrowserRouter>
-      <UserContext.Provider
-          value={{ currentUser, setCurrentUser }}>
-        <div className="App">
-          <Navigation logout={logout} />
-          <Routes login={login} signup={signup} />
-        </div>
-      </UserContext.Provider>
-    </BrowserRouter>
-);
+      <BrowserRouter>
+        <UserContext.Provider
+            value={{ currentUser, setCurrentUser}}>
+          <div className="App">
+            <Navigation logout={logout} />
+            <Routes login={login} signup={signup} />
+          </div>
+        </UserContext.Provider>
+      </BrowserRouter>
+  );
 }
 
 export default App;

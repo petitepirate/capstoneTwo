@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-// import Alert from "../common/Alert";
-import BookappApi from "../api/api";
+import Alert from "../common/Alert";
+import BookWormApi from "../api/api";
 import UserContext from "../auth/UserContext";
 
 // eslint-disable-next-line
-// import useTimedMessage from "../hooks/useTimedMessage";
+import useTimedMessage from "../hooks/useTimedMessage";
 
 /** Profile editing form.
  *
@@ -65,7 +65,7 @@ function ProfileForm() {
     let updatedUser;
 
     try {
-      updatedUser = await BookappApi.saveProfile(username, profileData);
+      updatedUser = await BookWormApi.saveProfile(username, profileData);
     } catch (errors) {
       debugger;
       setFormErrors(errors);
@@ -138,14 +138,14 @@ function ProfileForm() {
                 />
               </div>
 
-              {/* {formErrors.length
-                //   ? <Alert type="danger" messages={formErrors} />
+              {formErrors.length
+                  ? <Alert type="danger" messages={formErrors} />
                   : null}
 
               {saveConfirmed
                   ?
-                //   <Alert type="success" messages={["Updated successfully."]} />
-                  : null} */}
+                  <Alert type="success" messages={["Updated successfully."]} />
+                  : null}
 
               <button
                   className="btn btn-primary btn-block mt-4"
