@@ -2,8 +2,9 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Homepage from "../homepage/Homepage";
 import BookList from "../books/BookList";
+import BookShelf from "../books/BookShelf";
 // import JobList from "../jobs/JobList";
-import BookDetail from "../books/BookDetail";
+import BookForm from "../books/BookForm";
 import LoginForm from "../auth/LoginForm";
 import ProfileForm from "../profiles/ProfileForm";
 import SignupForm from "../auth/SignupForm";
@@ -44,13 +45,17 @@ function Routes({ login, signup }) {
             <BookList />
           </PrivateRoute>
 
-          {/* <PrivateRoute exact path="/jobs">
-            <JobList />
-          </PrivateRoute> */}
-
-          <PrivateRoute exact path="/bookshelf/:handle">
-            <BookDetail />
+          <PrivateRoute exact path="/books">
+            <BookShelf />
           </PrivateRoute>
+
+          <PrivateRoute exact path="/addbook">
+            <BookForm />
+          </PrivateRoute>
+
+          {/* <PrivateRoute exact path="/bookshelf/:handle">
+            <BookDetail />
+          </PrivateRoute> */}
 
           <PrivateRoute path="/profile">
             <ProfileForm />

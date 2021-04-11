@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
 
 
-const BookCard = ({
+const SearchBookCard = ({
   thumbnail,
   title,
   pageCount,
@@ -18,6 +18,7 @@ const BookCard = ({
   // States
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
+  const log = () => console.log({title}, {authors}, {description}, {thumbnail} );
 
   return (
     <Card style={{ width: '233px' }} className='m-auto '>
@@ -85,8 +86,14 @@ const BookCard = ({
           </div>
           <div className='divider'></div>
           <div>
-          <Button color='secondary' >Add to Bookshelf
-              </Button>
+          {/* <a href='/addbook' color='secondary' onClick={log} >Add to Bookshelf
+              </a> */}
+                <button
+                    className="btn btn-primary float-right"
+                    onClick={log}
+                >
+                  Add to Shelf
+                </button>
           </div>
         </div>
       </Modal>
@@ -94,5 +101,5 @@ const BookCard = ({
   );
 };
 
-export default BookCard;
+export default SearchBookCard;
 

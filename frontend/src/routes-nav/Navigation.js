@@ -20,14 +20,19 @@ function Navigation({ logout }) {
         <ul className="navbar-nav ml-auto">
           <li className="nav-item mr-4">
             <NavLink className="nav-link" to="/bookshelf">
-              Bookshelf
+              Search
             </NavLink>
           </li>
-          {/* <li className="nav-item mr-4">
-            <NavLink className="nav-link" to="/jobs">
-              Jobs
+          <li className="nav-item mr-4">
+            <NavLink className="nav-link" to="/books">
+              Users Books
             </NavLink>
-          </li> */}
+          </li>
+          <li className="nav-item mr-4">
+            <NavLink className="nav-link" to="/addbook">
+              Add Book
+            </NavLink>
+          </li>
           <li className="nav-item mr-4">
             <NavLink className="nav-link" to="/profile">
               Profile

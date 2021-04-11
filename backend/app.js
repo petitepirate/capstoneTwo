@@ -1,6 +1,6 @@
 "use strict";
 
-/** Express app for jobly. */
+/** Express app for bookworm. */
 
 const express = require("express");
 const cors = require("cors");
@@ -10,6 +10,7 @@ const { NotFoundError } = require("./expressError");
 const { authenticateJWT } = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
+const booksRoutes = require("./routes/books");
 
 const morgan = require("morgan");
 const app = express();
@@ -20,9 +21,8 @@ app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
 app.use("/auth", authRoutes);
-
 app.use("/users", usersRoutes);
-
+app.use("/books", booksRoutes);
 
 
 /** Handle 404 errors -- this matches everything */

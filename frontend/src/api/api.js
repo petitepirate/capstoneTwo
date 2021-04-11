@@ -43,16 +43,16 @@ class BookWormApi {
 
   /** Get companies (filtered by name if not undefined) */
 
-  static async getCompanies(name) {
-    let res = await this.request("companies", { name });
-    return res.companies;
+  static async getBooks(title) {
+    let res = await this.request("books", { title });
+    return res.books;
   }
 
   /** Get details on a company by handle. */
 
-  static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
-    return res.company;
+  static async getBook(title) {
+    let res = await this.request(`books/${title}`);
+    return res.book;
   }
 
   /** Get list of jobs (filtered by title if not undefined) */

@@ -6,7 +6,7 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 
 /** Related functions for companies. */
 
-class Company {
+class Book {
   /** Create a company (from data), update db, return new company data.
    *
    * data should be { handle, name, description, numEmployees, logoUrl }
@@ -15,33 +15,34 @@ class Company {
    *
    * Throws BadRequestError if company already in database.
    * */
-
-  static async create({ handle, name, description, numEmployees, logoUrl }) {
+ 
+  static async create({ title, authors, description, personalReview, category, thumbnail }) {
     const duplicateCheck = await db.query(
-          `SELECT handle
-           FROM companies
-           WHERE handle = $1`,
+          `SELECT title
+           FROM books
+           WHERE title = $1`,
         [handle]);
 
     if (duplicateCheck.rows[0])
-      throw new BadRequestError(`Duplicate company: ${handle}`);
+      throw new BadRequestError(`Duplicate book: ${title}`);
 
     const result = await db.query(
-          `INSERT INTO companies
-           (handle, name, description, num_employees, logo_url)
-           VALUES ($1, $2, $3, $4, $5)
-           RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`,
+          `INSERT INTO books
+           (title, authors, description, personalReview, category, thumbnail)
+           VALUES ($1, $2, $3, $4, $5, $6)
+           RETURNING title, authors, description, personalReview, category, thumbnail`,
         [
-          handle,
-          name,
+          title,
+          authors,
           description,
-          numEmployees,
-          logoUrl,
+          personalReview,
+          category,
+          thumbnail
         ],
     );
-    const company = result.rows[0];
+    const book = result.rows[0];
 
-    return company;
+    return book;
   }
 
   /** Find all companies (optional filter on searchFilters).
@@ -55,48 +56,39 @@ class Company {
    * */
 
   static async findAll(searchFilters = {}) {
-    let query = `SELECT handle,
-                        name,
-                        description,
-                        num_employees AS "numEmployees",
-                        logo_url AS "logoUrl"
-                 FROM companies`;
+    let query = `SELECT title,
+    authors,
+    description,
+    personalReview,
+    category,
+    thumbnail
+                 FROM books`;
     let whereExpressions = [];
     let queryValues = [];
 
-    const { minEmployees, maxEmployees, name } = searchFilters;
-
-    if (minEmployees > maxEmployees) {
-      throw new BadRequestError("Min employees cannot be greater than max");
-    }
+    //add author search
+    const { category, title } = searchFilters;
 
     // For each possible search term, add to whereExpressions and queryValues so
     // we can generate the right SQL
 
-    if (minEmployees !== undefined) {
-      queryValues.push(minEmployees);
-      whereExpressions.push(`num_employees >= $${queryValues.length}`);
-    }
 
-    if (maxEmployees !== undefined) {
-      queryValues.push(maxEmployees);
-      whereExpressions.push(`num_employees <= $${queryValues.length}`);
+    if (title) {
+      queryValues.push(`%${title}%`);
+      whereExpressions.push(`title ILIKE $${queryValues.length}`);
+    } 
+    if (category) {
+      queryValues.push(`%${category}%`);
+      whereExpressions.push(`category ILIKE $${queryValues.length}`);
     }
+ 
 
-    if (name) {
-      queryValues.push(`%${name}%`);
-      whereExpressions.push(`name ILIKE $${queryValues.length}`);
-    }
-
-    if (whereExpressions.length > 0) {
-      query += " WHERE " + whereExpressions.join(" AND ");
-    }
-
+    //add author search
     // Finalize query and return results
 
-    query += " ORDER BY name";
-    const companiesRes = await db.query(query, queryValues);
-    return companiesRes.rows;
+    query += " ORDER BY title";
+    const booksRes = await db.query(query, queryValues);
+    return booksRes.rows;
   }
 
   /** Given a company handle, return data about company.
@@ -107,33 +99,33 @@ class Company {
    * Throws NotFoundError if not found.
    **/
 
-  static async get(handle) {
-    const companyRes = await db.query(
-          `SELECT handle,
-                  name,
-                  description,
-                  num_employees AS "numEmployees",
-                  logo_url AS "logoUrl"
-           FROM companies
-           WHERE handle = $1`,
-        [handle]);
+  // static async get(handle) {
+  //   const companyRes = await db.query(
+  //         `SELECT handle,
+  //                 name,
+  //                 description,
+  //                 num_employees AS "numEmployees",
+  //                 logo_url AS "logoUrl"
+  //          FROM companies
+  //          WHERE handle = $1`,
+  //       [handle]);
 
-    const company = companyRes.rows[0];
+  //   const company = companyRes.rows[0];
 
-    if (!company) throw new NotFoundError(`No company: ${handle}`);
+  //   if (!company) throw new NotFoundError(`No company: ${handle}`);
 
-    const jobsRes = await db.query(
-          `SELECT id, title, salary, equity
-           FROM jobs
-           WHERE company_handle = $1
-           ORDER BY id`,
-        [handle],
-    );
+  //   const jobsRes = await db.query(
+  //         `SELECT id, title, salary, equity
+  //          FROM jobs
+  //          WHERE company_handle = $1
+  //          ORDER BY id`,
+  //       [handle],
+  //   );
 
-    company.jobs = jobsRes.rows;
+  //   company.jobs = jobsRes.rows;
 
-    return company;
-  }
+  //   return company;
+  // }
 
   /** Update company data with `data`.
    *
@@ -147,48 +139,49 @@ class Company {
    * Throws NotFoundError if not found.
    */
 
-  static async update(handle, data) {
-    const { setCols, values } = sqlForPartialUpdate(
-        data,
-        {
-          numEmployees: "num_employees",
-          logoUrl: "logo_url",
-        });
-    const handleVarIdx = "$" + (values.length + 1);
+  // static async update(handle, data) {
+  //   const { setCols, values } = sqlForPartialUpdate(
+  //       data,
+  //       {
+  //         numEmployees: "num_employees",
+  //         logoUrl: "logo_url",
+  //       });
+  //   const handleVarIdx = "$" + (values.length + 1);
 
-    const querySql = `UPDATE companies 
-                      SET ${setCols} 
-                      WHERE handle = ${handleVarIdx} 
-                      RETURNING handle, 
-                                name, 
-                                description, 
-                                num_employees AS "numEmployees", 
-                                logo_url AS "logoUrl"`;
-    const result = await db.query(querySql, [...values, handle]);
-    const company = result.rows[0];
+  //   const querySql = `UPDATE companies 
+  //                     SET ${setCols} 
+  //                     WHERE handle = ${handleVarIdx} 
+  //                     RETURNING handle, 
+  //                               name, 
+  //                               description, 
+  //                               num_employees AS "numEmployees", 
+  //                               logo_url AS "logoUrl"`;
+  //   const result = await db.query(querySql, [...values, handle]);
+  //   const company = result.rows[0];
 
-    if (!company) throw new NotFoundError(`No company: ${handle}`);
+  //   if (!company) throw new NotFoundError(`No company: ${handle}`);
 
-    return company;
-  }
+  //   return company;
+  // }
 
   /** Delete given company from database; returns undefined.
    *
    * Throws NotFoundError if company not found.
    **/
 
-  static async remove(handle) {
+  static async remove(title) {
     const result = await db.query(
           `DELETE
-           FROM companies
-           WHERE handle = $1
-           RETURNING handle`,
-        [handle]);
-    const company = result.rows[0];
+           FROM books
+           WHERE title = $1
+           RETURNING title`,
+        [title]);
+    const book = result.rows[0];
 
-    if (!company) throw new NotFoundError(`No company: ${handle}`);
+
+    if (!book) throw new NotFoundError(`No book: ${title}`);
   }
 }
 
 
-module.exports = Company;
+module.exports = Book;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // import BookWormApi from "../api/api";
 // import LoadingSpinner from "../common/LoadingSpinner";
 
@@ -14,7 +14,7 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import axios from 'axios';
-import BookCard from './BookCard.js';
+import SearchBookCard from './SearchBookCard.js';
 import "./BookCard.css";
 
 
@@ -121,7 +121,7 @@ function BookList() {
 
         return (
           <div className='col-lg-4 mb-3' key={item.id}>
-            <BookCard
+            <SearchBookCard
               thumbnail={thumbnail}
               title={item.volumeInfo.title}
               pageCount={item.volumeInfo.pageCount}
