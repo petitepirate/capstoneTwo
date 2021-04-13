@@ -16,12 +16,7 @@ const router = express.Router({ mergeParams: true });
 
 
 /** POST / { book } => { book }
- *
- * book should be { title, salary, equity, companyHandle }
- *
- * Returns { id, title, salary, equity, companyHandle }
- *
- * Authorization required: admin
+
  */
 
 router.post("/", ensureLoggedIn, async function (req, res, next) {
@@ -40,22 +35,14 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 });
 
 /** GET / =>
- *   { books: [ { id, title, salary, equity, companyHandle, companyName }, ...] }
- *
- * Can provide search filter in query:
- * - minSalary
- * - hasEquity (true returns only books with equity > 0, other values ignored)
- * - title (will find case-insensitive, partial matches)
 
- * Authorization required: none
  */
 
 router.get("/", async function (req, res, next) {
-  const q = req.query;
-
+  const user = res.locals.user.username
 
   try {
-    const books = await Book.findAll(q);
+    const books = await Book.findUserBooks(user);
     return res.json({ books });
   } catch (err) {
     return next(err);
@@ -70,7 +57,7 @@ router.get("/", async function (req, res, next) {
  * Authorization required: none
  */
 
-router.get("/:id", async function (req, res, next) {
+router.get("/:id", async function (req, res, next) {  //REVISIT 
   try {
     const book = await Book.get(req.params.id);
     return res.json({ book });
@@ -109,7 +96,7 @@ router.get("/:id", async function (req, res, next) {
  * Authorization required: admin
  */
 
-router.delete("/:id", ensureLoggedIn, async function (req, res, next) {
+router.delete("/:id", ensureLoggedIn, async function (req, res, next) {  //REVISIT
   try {
     await Book.remove(req.params.id);
     return res.json({ deleted: +req.params.id });

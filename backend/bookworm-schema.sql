@@ -1,12 +1,3 @@
-CREATE TABLE books (
-  id SERIAL PRIMARY KEY,
-  title TEXT NOT NULL,
-  authors TEXT,
-  description TEXT,
-  personalReview TEXT,
-  category TEXT,
-  thumbnail TEXT
-);
 
 CREATE TABLE users (
   username VARCHAR(25) PRIMARY KEY,
@@ -14,9 +5,21 @@ CREATE TABLE users (
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   email TEXT NOT NULL
-    CHECK (position('@' IN email) > 1),
-  is_admin BOOLEAN NOT NULL DEFAULT TRUE
+    CHECK (position('@' IN email) > 1)
 );
+
+CREATE TABLE books (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  authors TEXT,
+  description TEXT,
+  personalReview TEXT,
+  category TEXT,
+  thumbnail TEXT,
+  username VARCHAR(25) NOT NULL 
+    REFERENCES users ON DELETE CASCADE
+);
+
 
 -- CREATE TABLE jobs (
 --   id SERIAL PRIMARY KEY,
@@ -42,3 +45,5 @@ CREATE TABLE users (
 --   description TEXT NOT NULL,
 --   logo_url TEXT
 -- );
+
+\i bookworm-seed.sql

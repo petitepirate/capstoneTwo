@@ -6,6 +6,6 @@ CREATE DATABASE bookapp;
 \connect bookapp
 
 \i bookworm-schema.sql
-\i bookworm-seed.sql
+-- \i bookworm-seed.sql
 
 

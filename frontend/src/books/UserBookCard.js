@@ -1,21 +1,15 @@
 import React from "react";
-// import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
-
+import "./BookCard.css";
 
 const UserBookCard = ({
   thumbnail,
   title,
-  pageCount,
-  language,
   description,
   authors,
-  publisher,
-  previewLink,
   personalReview,
-  category,
-  infoLink
+  category
 }) => {
   // States
   const [modal, setModal] = useState(false);
@@ -67,10 +61,16 @@ const UserBookCard = ({
           {/* <a href='/addbook' color='secondary' onClick={log} >Add to Bookshelf
               </a> */}
                 <button
-                    className="btn btn-primary float-right"
+                    className="btn btn-secondary float-right"
                     onClick={log}
                 >
                   Edit
+                </button>
+                <button
+                    className="btn btn-secondary float-right" 
+                    onClick={log}
+                >
+                  Delete
                 </button>
           </div>
         </div>

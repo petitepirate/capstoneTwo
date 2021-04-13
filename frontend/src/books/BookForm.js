@@ -8,19 +8,7 @@ import React, { useState} from "react";
 // eslint-disable-next-line
 // import useTimedMessage from "../hooks/useTimedMessage";
 
-/** Profile editing form.
- *
- * Displays profile form and handles changes to local form state.
- * Submitting the form calls the API to save, and triggers user reloading
- * throughout the site.
- *
- * Confirmation of a successful save is normally a simple <Alert>, but
- * you can opt-in to our fancy limited-time-display message hook,
- * `useTimedMessage`, but switching the lines below.
- *
- * Routed as /profile
- * Routes -> ProfileForm -> Alert
- */
+
 
 function BookForm({
     thumbnail,
@@ -61,15 +49,15 @@ function BookForm({
   async function handleSubmit(evt) {
     evt.preventDefault();
 
-    let profileData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      password: formData.password,
-    };
+    // let profileData = {
+    //   firstName: formData.firstName,
+    //   lastName: formData.lastName,
+    //   email: formData.email,
+    //   password: formData.password,
+    // };
 
-    let username = formData.username;
-    let updatedUser;
+    // let username = formData.username;
+    // let updatedUser;
 
     // try {
     //   updatedUser = await JoblyApi.saveProfile(username, profileData);
