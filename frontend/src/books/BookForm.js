@@ -1,41 +1,52 @@
 
-import React, { useState} from "react";
+import React, { useState, useContext} from "react";
 // import Alert from "../common/Alert";
-// import JoblyApi from "../api/api";
-// import UserContext from "../auth/UserContext";
-// import { useState } from 'react';
-// import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
-// eslint-disable-next-line
-// import useTimedMessage from "../hooks/useTimedMessage";
+import BookWormApi from "../api/api";
+import UserContext from "../auth/UserContext";
+// import TargetBookContext from "./TargetBookContext";
+// import { useHistory } from "react-router-dom";
+import Alert from "../common/Alert";
 
 
 
-function BookForm({
+
+function BookForm(
+  {
+    targetBook,
     thumbnail,
     title,
     description,
     authors,
-
-  }) {
-//   const { currentUser, setCurrentUser } = useContext(UserContext);
+  }
+  ) {
+  const { currentUser } = useContext(UserContext);
+  // const {targetBook} = useContext(TargetBookContext);
   const [formData, setFormData] = useState({
-    bookTitle: title,
-    bookAuthor: authors,
-    bookDescrip: description,
-    bookCover: thumbnail
+    title: `${targetBook}`,
+    authors: /* {authors}*/"Shenanigans",
+    description: /* {description}*/"",
+    personalReview: "",
+    categroy: "",
+    thumnnail: /* {thumbnail}*/"",
   });
   const [formErrors, setFormErrors] = useState([]);
 
   // switch to use our fancy limited-time-display message hook
-  const [saveConfirmed, setSaveConfirmed] = useState(false);
+  // const [saveConfirmed, setSaveConfirmed] = useState(false);
   // const [saveConfirmed, setSaveConfirmed] = useTimedMessage()
+  const log = () => {
+    
+    let data = targetBook;
+    console.log(data);
+
+  }
 
   console.debug(
     //   "ProfileForm",
     //   "currentUser=", currentUser,
       "formData=", formData,
       "formErrors=", formErrors,
-      "saveConfirmed=", saveConfirmed,
+      // "saveConfirmed=", saveConfirmed,
   );
 
   /** on form submit:
@@ -45,31 +56,40 @@ function BookForm({
    *   - show save-confirmed message
    *   - set current user info throughout the site
    */
+  // const log = () => console.log(formData.title, currentUser);
 
   async function handleSubmit(evt) {
     evt.preventDefault();
 
-    // let profileData = {
-    //   firstName: formData.firstName,
-    //   lastName: formData.lastName,
-    //   email: formData.email,
-    //   password: formData.password,
-    // };
-
+    let bookData = {
+      title: formData.title,
+      authors: formData.authors, 
+      description: formData.description, 
+      personalReview: formData.personalReview, 
+      category: formData.category,
+      thumbnail: formData.thumbnail, 
+      username: currentUser.username,
+    };
+    // console.log(bookData);
     // let username = formData.username;
-    // let updatedUser;
+    // let addBook;
 
-    // try {
-    //   updatedUser = await JoblyApi.saveProfile(username, profileData);
-    // } catch (errors) {
-    //   debugger;
-    //   setFormErrors(errors);
-    //   return;
-    // }
+    try {
+      await BookWormApi.saveBook(bookData);
+    } catch (errors) {
+      debugger;
+      setFormErrors(errors);
+      return;
+    }
 
-    setFormData(f => ({ ...f, password: "" }));
+    setFormData(f => ({     title: "",
+      authors: "",
+      description: "",
+      personalReview: "",
+      categroy: "",
+      thumnnail: "", }));
     setFormErrors([]);
-    setSaveConfirmed(true);
+    // setSaveConfirmed(true);
 
     // trigger reloading of user information throughout the site
     // setCurrentUser(updatedUser);
@@ -91,14 +111,19 @@ function BookForm({
         <div className="card">
           <div className="card-body">
             <form>
-              <div className="form-group">
-                <label>Title</label>
-                <p className="form-control-plaintext">{formData.title}</p>
-              </div>
+            <div className="form-group">
+                 <label>Title</label>
+                 <input
+                    name="title"
+                    className="form-control"
+                    value={formData.title}
+                    onChange={handleChange}
+                    />
+                    </div>
               <div className="form-group">
                 <label>Authors</label>
                 <input
-                    name="bookAuthors"
+                    name="authors"
                     className="form-control"
                     value={formData.authors}
                     onChange={handleChange}
@@ -107,47 +132,58 @@ function BookForm({
                <div className="form-group">
                  <label>Description</label>
                  <input
-                    name="bookDescript"
+                    name="description"
                     className="form-control"
                     value={formData.description}
+                    onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                 <label>Personal Review</label>
+                 <input
+                    name="personalReview"
+                    className="form-control"
+                    value={formData.personalReview}
+                    onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                 <label>Category</label>
+                 <input
+                    name="category"
+                    className="form-control"
+                    value={formData.category}
                     onChange={handleChange}
                 />
               </div>
                <div className="form-group">
                  <label>Cover</label>
                  <input
-                    name="bookCover"
+                    name="thumbnail"
                     className="form-control"
                     value={formData.thumbnail}
                     onChange={handleChange}
                 />
               </div>
-            {/* //   <div className="form-group">
-            //     <label>Confirm password to make changes:</label>
-            //     <input */}
-            {/* //         type="password"
-            //         name="password"
-            //         className="form-control"
-            //         value={formData.password}
-            //         onChange={handleChange}
-            //     />
-            //   </div>
+
+
 
               {formErrors.length
                   ? <Alert type="danger" messages={formErrors} />
                   : null}
 
-              {saveConfirmed
+              {/* {saveConfirmed
                   ?
                   <Alert type="success" messages={["Updated successfully."]} />
-                  : null} */}
+                  : null}   */}
 
               <button
                   className="btn btn-primary btn-block mt-4"
                   onClick={handleSubmit}
               >
-                Save Changes
+                Add Book
               </button>
+              <button onClick={log}>Log?</button>
             </form>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Navigation from "./routes-nav/Navigation";
 import Routes from "./routes-nav/Routes";
@@ -124,7 +124,7 @@ function App() {
   if (!infoLoaded) return <LoadingSpinner />;
 
   return (
-      <BrowserRouter>
+      // <BrowserRouter>
         <UserContext.Provider
             value={{ currentUser, setCurrentUser}}>
           <div className="App">
@@ -132,7 +132,7 @@ function App() {
             <Routes login={login} signup={signup} />
           </div>
         </UserContext.Provider>
-      </BrowserRouter>
+      // </BrowserRouter>
   );
 }
 

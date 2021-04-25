@@ -1,5 +1,8 @@
 import React from "react";
 import { useState } from 'react';
+import { useHistory } from "react-router-dom";
+// import { Link} from "react-router";
+// import props from 'prop-types';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
 
 
@@ -12,12 +15,39 @@ const SearchBookCard = ({
   authors,
   publisher,
   previewLink,
-  infoLink
+  infoLink, 
+  props
 }) => {
   // States
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-  const log = () => console.log({title}, {authors}, {description}, {thumbnail} );
+
+  const history = useHistory();
+  
+  const [targetBook, settargetBook] = useState({title, authors, description, thumbnail});
+  // const log = () => console.log({title}, {authors}, {description}, {thumbnail} );
+  const redirect = (e) => {
+      // setCard(title, authors, description, thumbnail);
+      settargetBook({title, authors, description, thumbnail});
+      // console.log(targetBook);
+        // let targetTitle = targetBook.title;
+        // console.log(targetTitle);
+        history.push({
+        pathname: "/addsearchbook",
+        state: { title: `${targetBook.title}`}});
+        // history.push('/addbook', { title: `${targetTitle}`})
+
+  }
+
+  const log = () => {
+    settargetBook({title, authors, description, thumbnail});
+    console.log(targetBook);
+    console.log(targetBook.title);
+    console.log(targetBook.authors);
+    console.log(targetBook.description);
+    console.log(targetBook.thumbnail);
+
+  }
 
   return (
     <Card style={{ width: '233px' }} className='m-auto '>
@@ -51,7 +81,7 @@ const SearchBookCard = ({
             <div>
               <p>Page Count: {pageCount}</p>
               <p>Language : {language}</p>
-              <p>Authors : {authors}</p>
+              <p>Authors : {authors.join(', ')}</p>
               <p>Publisher : {publisher}</p>
             </div>
           </div>
@@ -87,9 +117,11 @@ const SearchBookCard = ({
           <div>
           {/* <a href='/addbook' color='secondary' onClick={log} >Add to Bookshelf
               </a> */}
+              <button onClick={log}>Log?</button>
                 <button
                     className="btn btn-primary float-right"
-                    onClick={log}
+                    onClick={redirect}
+                    data={targetBook}
                 >
                   Add to Shelf
                 </button>

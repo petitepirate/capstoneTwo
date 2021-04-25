@@ -55,6 +55,11 @@ class BookWormApi {
     return res.book;
   }
 
+  static async getFilteredBooks(category) {
+    let res = await this.request(`books/${category}`);
+    return res.books;
+  }
+
   /** Get token for login from username, password. */
 
   static async login(data) {
@@ -74,6 +79,17 @@ class BookWormApi {
   static async saveProfile(username, data) {
     let res = await this.request(`users/${username}`, data, "patch");
     return res.user;
+  }
+
+  // static async saveBook()
+  static async saveBook(data) {
+    let res = await this.request(`books`, data, "post");
+    return res.book;
+  }
+
+  static async deleteBook(data) {
+    let res = await this.request(`books/${data.id}`, data, "delete");
+    return res.book;
   }
 }
 

@@ -28,11 +28,11 @@ function Navigation({ logout }) {
               Users Books
             </NavLink>
           </li>
-          <li className="nav-item mr-4">
+          {/* <li className="nav-item mr-4">
             <NavLink className="nav-link" to="/addbook">
               Add Book
             </NavLink>
-          </li>
+          </li> */}
           <li className="nav-item mr-4">
             <NavLink className="nav-link" to="/profile">
               Profile

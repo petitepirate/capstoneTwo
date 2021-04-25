@@ -21,7 +21,7 @@ class Book {
           `SELECT title
            FROM books
            WHERE title = $1`,
-        [handle]);
+        [title]);
 
     if (duplicateCheck.rows[0])
       throw new BadRequestError(`Duplicate book: ${title}`);
@@ -102,19 +102,26 @@ class Book {
     const booksRes = await db.query(query);
     return booksRes.rows;
   }
+
+  static async findUserCategoryBooks(user, category) {
+    let query = `SELECT * FROM books WHERE username LIKE '${user}' AND category ILIKE '${category}';`
+    const booksRes = await db.query(query);
+    return booksRes.rows;
+  }
+
   
 //may need to do this off of ID#
-  static async remove(title) {
+  static async remove(id) {
     const result = await db.query(
           `DELETE
            FROM books
-           WHERE title = $1
+           WHERE id = $1
            RETURNING title`,
-        [title]);
+        [id]);
     const book = result.rows[0];
 
 
-    if (!book) throw new NotFoundError(`No book: ${title}`);
+    if (!book) throw new NotFoundError(`No book: ${id}`);
   }
 }
 

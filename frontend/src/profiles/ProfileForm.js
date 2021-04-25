@@ -53,32 +53,37 @@ function ProfileForm() {
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-
+try {
     let profileData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
       email: formData.email,
       password: formData.password,
     };
 
     let username = formData.username;
-    let updatedUser;
-
-    try {
-      updatedUser = await BookWormApi.saveProfile(username, profileData);
-    } catch (errors) {
-      debugger;
-      setFormErrors(errors);
-      return;
-    }
-
-    setFormData(f => ({ ...f, password: "" }));
-    setFormErrors([]);
-    setSaveConfirmed(true);
-
-    // trigger reloading of user information throughout the site
+    let updatedUser = await BookWormApi.saveProfile(username, profileData);
+    console.log("UPDATED USER", updatedUser)
+    setFormData(f => ({
+      ...f,
+      errors: [],
+      saveConfirmed: true,
+      password: ""
+    }));
     setCurrentUser(updatedUser);
+  } catch (errors) {
+    let profileData = {
+      username: formData.username,
+      first_name: formData.firstName,
+      last_nme: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+    };
+    console.log(profileData);
+    setFormData(f => ({ ...f, errors }));
   }
+}
+
 
   /** Handle form data changing */
   function handleChange(evt) {
@@ -103,7 +108,7 @@ function ProfileForm() {
               <div className="form-group">
                 <label>First Name</label>
                 <input
-                    name="firstName"
+                    name="first_name"
                     className="form-control"
                     value={formData.firstName}
                     onChange={handleChange}
@@ -112,7 +117,7 @@ function ProfileForm() {
               <div className="form-group">
                 <label>Last Name</label>
                 <input
-                    name="lastName"
+                    name="last_name"
                     className="form-control"
                     value={formData.lastName}
                     onChange={handleChange}

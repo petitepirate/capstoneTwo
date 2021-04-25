@@ -35,7 +35,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 });
 
 /** GET / =>
-
+get specific users books - all books
  */
 
 router.get("/", async function (req, res, next) {
@@ -43,28 +43,29 @@ router.get("/", async function (req, res, next) {
 
   try {
     const books = await Book.findUserBooks(user);
+    // console.log(res.json({books}));
     return res.json({ books });
   } catch (err) {
     return next(err);
   }
 });
 
-/** GET /[bookId] => { book }
- *
- * Returns { id, title, salary, equity, company }
- *   where company is { handle, name, description, numEmployees, logoUrl }
- *
- * Authorization required: none
- */
 
-router.get("/:id", async function (req, res, next) {  //REVISIT 
+//Filter to see only a certain category's books per each user
+
+router.get("/:category", async function (req, res, next) {  
   try {
-    const book = await Book.get(req.params.id);
-    return res.json({ book });
+    const user = res.locals.user.username;
+    const params = req.params;
+    console.log(params);
+    const books = await Book.findUserCategoryBooks(user, req.params.category);
+    return res.json({ books });
   } catch (err) {
     return next(err);
   }
 });
+
+
 
 
 /** PATCH /[bookId]  { fld1, fld2, ... } => { book }

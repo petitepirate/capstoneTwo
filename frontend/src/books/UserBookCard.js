@@ -1,6 +1,9 @@
 import React from "react";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import {useHistory} from 'react-router-dom';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
+import UserContext from "../auth/UserContext";
+import BookWormApi from "../api/api";
 import "./BookCard.css";
 
 const UserBookCard = ({
@@ -9,12 +12,68 @@ const UserBookCard = ({
   description,
   authors,
   personalReview,
-  category
+  category,
+  id
 }) => {
   // States
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-  const log = () => console.log({title}, {authors}, {description}, {thumbnail} );
+  const { currentUser } = useContext(UserContext); 
+  const history = useHistory();
+  
+  const [targetBook, settargetBook] = useState({title, authors, description, thumbnail});
+  // const book = (`{
+  //   ${id}, ${title}, ${authors}, ${description}, ${thumbnail}
+  // }`)
+
+  // const log = () => console.log(book );
+
+
+
+// async function deleteBook() {
+//   await BookWormApi.remove(id);
+//   history.push("/books");
+// }
+// const { currentUser } = useContext(UserContext); 
+
+async function handleDelete(evt) {
+  evt.preventDefault();
+
+  let bookData = {
+    "id": `${id}`,
+    "title": `${title}`,
+    "authors": `${authors}`, 
+    "description": `${description}`, 
+    "personalReview": `${personalReview}`, 
+    "category": `${category}`,
+    "thumbnail": `${thumbnail}`, 
+    "username": currentUser.username,
+  };
+  // console.log(bookData);
+  // let username = formData.username;
+  // let addBook;
+
+  try {
+    await BookWormApi.deleteBook(bookData);
+  } catch (errors) {
+    console.log("unable to delete book");
+    console.log(bookData);
+    return;
+  }
+}
+
+
+async function handleEdit(evt) {
+      // setCard(title, authors, description, thumbnail);
+      settargetBook([title, authors, description, thumbnail]);
+      // console.log(targetBook);
+        // let targetTitle = targetBook.title;
+        // console.log(targetTitle);
+        history.push({
+        pathname: "/editbook",
+        state: { title: `${targetBook.title}`}});
+        // history.push('/addbook', { title: `${targetTitle}`})
+        }
 
   return (
     <Card style={{ width: '233px' }} className='m-auto '>
@@ -62,13 +121,13 @@ const UserBookCard = ({
               </a> */}
                 <button
                     className="btn btn-secondary float-right"
-                    onClick={log}
+                    onClick={handleEdit}
                 >
                   Edit
                 </button>
                 <button
                     className="btn btn-secondary float-right" 
-                    onClick={log}
+                    onClick={handleDelete}
                 >
                   Delete
                 </button>

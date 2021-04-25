@@ -5,6 +5,8 @@ import BookList from "../books/BookList";
 import BookShelf from "../books/BookShelf";
 // import JobList from "../jobs/JobList";
 import BookForm from "../books/BookForm";
+import AddBookForm from "../books/AddBookForm";
+import EditBookForm from "../books/EditBookForm";
 import LoginForm from "../auth/LoginForm";
 import ProfileForm from "../profiles/ProfileForm";
 import SignupForm from "../auth/SignupForm";
@@ -49,8 +51,16 @@ function Routes({ login, signup }) {
             <BookShelf />
           </PrivateRoute>
 
-          <PrivateRoute exact path="/addbook">
+          <PrivateRoute exact path="/addbook" >
+            <AddBookForm />
+          </PrivateRoute>
+
+          <PrivateRoute exact path="/addsearchbook" >
             <BookForm />
+          </PrivateRoute>
+
+          <PrivateRoute exact path="/editbook" >
+            <EditBookForm />
           </PrivateRoute>
 
           {/* <PrivateRoute exact path="/bookshelf/:handle">

@@ -2,13 +2,13 @@
 
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const { sqlForPartialUpdate } = require("../helpers/sql");
+// const { sqlForPartialUpdate } = require("../helpers/sql");
 const {
   NotFoundError,
   BadRequestError,
   UnauthorizedError,
 } = require("../expressError");
-
+const partialUpdate = require("../helpers/sql");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
 
 /** Related functions for users. */
@@ -77,7 +77,7 @@ class User {
             first_name,
             last_name,
             email)
-           VALUES ($1, $2, $3, $4, $5, $6)
+           VALUES ($1, $2, $3, $4, $5)
            RETURNING username, first_name AS "firstName", last_name AS "lastName", email`,
         [
           username,
@@ -156,30 +156,26 @@ class User {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     }
 
-    const { setCols, values } = sqlForPartialUpdate(
+    let {query, values} = partialUpdate(
+        "users",
         data,
-        {
-          firstName: "first_name",
-          lastName: "last_name",
+        "username",
+        username
+    );
 
-        });
-    const usernameVarIdx = "$" + (values.length + 1);
-
-    const querySql = `UPDATE users 
-                      SET ${setCols} 
-                      WHERE username = ${usernameVarIdx} 
-                      RETURNING username,
-                                first_name AS "firstName",
-                                last_name AS "lastName",
-                                email,
-`;
-    const result = await db.query(querySql, [...values, username]);
+    const result = await db.query(query, values);
     const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if (!user) {
+      let notFound = new Error(`There exists no user '${username}`);
+      notFound.status = 404;
+      throw notFound;
+    }
 
     delete user.password;
-    return user;
+
+
+    return result.rows[0];
   }
 
   /** Delete given user from database; returns undefined. */

@@ -29,18 +29,23 @@ function BookShelf() {
     search();
   }, []);
 
-  /** Triggered by search form submit; reloads companies. */
-  async function search(title) {
-    let books = await BookWormApi.getBooks(title);
+  async function search(username) {
+    let books = await BookWormApi.getBooks(username);
     setBooks(books);
   }
 
+  /** Triggered by search form submit; reloads companies. */
+  async function getCategorizedBooks(category) {
+    let books = await BookWormApi.getFilteredBooks(category);
+    setBooks(books);
+  }
   
   if (!books) return <LoadingSpinner />;
 
+
   return (
       <div className="CompanyList col-md-8 offset-md-2">
-        <SearchForm searchFor={search} />
+        <SearchForm searchFor={getCategorizedBooks} />
 
         {books.length
             ? (
@@ -51,7 +56,7 @@ function BookShelf() {
                     
                     <div className='col-lg-4 mb-3' key={b.id}>
                       <UserBookCard
-                          
+                          id={b.id}
                           title={b.title}
                           authors={b.authors}
                           description={b.description}
