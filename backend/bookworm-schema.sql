@@ -13,7 +13,7 @@ CREATE TABLE books (
   title TEXT NOT NULL,
   authors TEXT,
   description TEXT,
-  personalReview TEXT,
+  personalreview TEXT,
   category TEXT,
   thumbnail TEXT,
   username VARCHAR(25) NOT NULL 

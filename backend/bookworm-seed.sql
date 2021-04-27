@@ -13,7 +13,7 @@ VALUES ('testuser',
         'Admin!',
         'joel@joelburton.com');
 
-INSERT INTO books (title, authors, description, personalReview, category, thumbnail, username)
+INSERT INTO books (title, authors, description, personalreview, category, thumbnail, username)
 VALUES ('The Mortal Instruments', 'Cassandra Claire', 'A book about clary', 'One of my favorite series',
         'Favorites', 'http://books.google.com/books/content?id=MUo8DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 'testuser'),
         ('Chain of Gold', 'Cassandra Claire', 'A book about cordelia', 'One of my favorite series',

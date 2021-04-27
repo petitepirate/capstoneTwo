@@ -1,16 +1,16 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import Homepage from "../homepage/Homepage";
-import BookList from "../books/BookList";
-import BookShelf from "../books/BookShelf";
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Homepage from '../homepage/Homepage';
+import BookList from '../books/BookList';
+import BookShelf from '../books/BookShelf';
 // import JobList from "../jobs/JobList";
-import BookForm from "../books/BookForm";
-import AddBookForm from "../books/AddBookForm";
-import EditBookForm from "../books/EditBookForm";
-import LoginForm from "../auth/LoginForm";
-import ProfileForm from "../profiles/ProfileForm";
-import SignupForm from "../auth/SignupForm";
-import PrivateRoute from "./PrivateRoute";
+import BookForm from '../books/BookForm';
+import AddBookForm from '../books/AddBookForm';
+import EditBookForm from '../books/EditBookForm';
+import LoginForm from '../auth/LoginForm';
+import ProfileForm from '../profiles/ProfileForm';
+import SignupForm from '../auth/SignupForm';
+import PrivateRoute from './PrivateRoute';
 
 /** Site-wide routes.
  *
@@ -21,60 +21,56 @@ import PrivateRoute from "./PrivateRoute";
  */
 
 function Routes({ login, signup }) {
-  console.debug(
-      "Routes",
-      `login=${typeof login}`,
-      `register=${typeof register}`,
-  );
+	console.debug('Routes', `login=${typeof login}`, `register=${typeof register}`);
+	console.log('---------------------------------------------');
 
-  return (
-      <div className="pt-5">
-        <Switch>
+	return (
+		<div className="pt-5">
+			<Switch>
+				<Route exact path="/">
+					<Homepage />
+				</Route>
 
-          <Route exact path="/">
-            <Homepage />
-          </Route>
+				<Route exact path="/login">
+					<LoginForm login={login} />
+				</Route>
 
-          <Route exact path="/login">
-            <LoginForm login={login} />
-          </Route>
+				<Route exact path="/signup">
+					<SignupForm signup={signup} />
+				</Route>
 
-          <Route exact path="/signup">
-            <SignupForm signup={signup} />
-          </Route>
+				<PrivateRoute exact path="/bookshelf">
+					<BookList />
+				</PrivateRoute>
 
-          <PrivateRoute exact path="/bookshelf">
-            <BookList />
-          </PrivateRoute>
+				<PrivateRoute exact path="/books">
+					<BookShelf />
+				</PrivateRoute>
 
-          <PrivateRoute exact path="/books">
-            <BookShelf />
-          </PrivateRoute>
+				<PrivateRoute exact path="/addbook">
+					<AddBookForm />
+				</PrivateRoute>
 
-          <PrivateRoute exact path="/addbook" >
-            <AddBookForm />
-          </PrivateRoute>
+				<PrivateRoute exact path="/addsearchbook">
+					<BookForm />
+				</PrivateRoute>
 
-          <PrivateRoute exact path="/addsearchbook" >
-            <BookForm />
-          </PrivateRoute>
+				<PrivateRoute exact path="/editbook">
+					<EditBookForm />
+				</PrivateRoute>
 
-          <PrivateRoute exact path="/editbook" >
-            <EditBookForm />
-          </PrivateRoute>
-
-          {/* <PrivateRoute exact path="/bookshelf/:handle">
+				{/* <PrivateRoute exact path="/bookshelf/:handle">
             <BookDetail />
           </PrivateRoute> */}
 
-          <PrivateRoute path="/profile">
-            <ProfileForm />
-          </PrivateRoute>
+				<PrivateRoute path="/profile">
+					<ProfileForm />
+				</PrivateRoute>
 
-          <Redirect to="/" />
-        </Switch>
-      </div>
-  );
+				<Redirect to="/" />
+			</Switch>
+		</div>
+	);
 }
 
 export default Routes;

@@ -1,142 +1,115 @@
-import React from "react";
+import React from 'react';
 import { useState, useContext } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
-import UserContext from "../auth/UserContext";
-import BookWormApi from "../api/api";
-import "./BookCard.css";
+import UserContext from '../auth/UserContext';
+import BookWormApi from '../api/api';
+import './BookCard.css';
 
-const UserBookCard = ({
-  thumbnail,
-  title,
-  description,
-  authors,
-  personalReview,
-  category,
-  id
-}) => {
-  // States
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
-  const { currentUser } = useContext(UserContext); 
-  const history = useHistory();
-  
-  const [targetBook, settargetBook] = useState({title, authors, description, thumbnail});
-  // const book = (`{
-  //   ${id}, ${title}, ${authors}, ${description}, ${thumbnail}
-  // }`)
+const UserBookCard = ({ thumbnail, title, description, authors, personalreview, category, id }) => {
+	// States
+	const [ modal, setModal ] = useState(false);
+	const toggle = () => setModal(!modal);
+	const { currentUser } = useContext(UserContext);
+	const history = useHistory();
 
-  // const log = () => console.log(book );
+	// const [targetBook, settargetBook] = useState({title, authors, description, thumbnail});
+	// const book = (`{
+	//   ${id}, ${title}, ${authors}, ${description}, ${thumbnail}
+	// }`)
 
+	const log = () => console.log(id, title);
 
+	// async function deleteBook() {
+	//   await BookWormApi.remove(id);
+	//   history.push("/books");
+	// }
+	// const { currentUser } = useContext(UserContext);
 
-// async function deleteBook() {
-//   await BookWormApi.remove(id);
-//   history.push("/books");
-// }
-// const { currentUser } = useContext(UserContext); 
+	async function handleDelete(evt) {
+		evt.preventDefault();
 
-async function handleDelete(evt) {
-  evt.preventDefault();
+		let bookData = {
+			id: `${id}`,
+			title: `${title}`,
+			authors: `${authors}`,
+			description: `${description}`,
+			personalreview: `${personalreview}`,
+			category: `${category}`,
+			thumbnail: `${thumbnail}`,
+			username: currentUser.username
+		};
+		// console.log(bookData);
+		// let username = formData.username;
+		// let addBook;
 
-  let bookData = {
-    "id": `${id}`,
-    "title": `${title}`,
-    "authors": `${authors}`, 
-    "description": `${description}`, 
-    "personalReview": `${personalReview}`, 
-    "category": `${category}`,
-    "thumbnail": `${thumbnail}`, 
-    "username": currentUser.username,
-  };
-  // console.log(bookData);
-  // let username = formData.username;
-  // let addBook;
+		try {
+			await BookWormApi.deleteBook(bookData);
+		} catch (errors) {
+			console.log('unable to delete book');
+			console.log(bookData);
+			return;
+		}
+	}
 
-  try {
-    await BookWormApi.deleteBook(bookData);
-  } catch (errors) {
-    console.log("unable to delete book");
-    console.log(bookData);
-    return;
-  }
-}
+	async function redirectToEdit(e) {
+		const book = { id, title, authors, description, personalreview, category, thumbnail };
+		history.push({
+			pathname: '/editbook',
+			state: { ...book }
+		});
+	}
 
-
-async function handleEdit(evt) {
-      // setCard(title, authors, description, thumbnail);
-      settargetBook([title, authors, description, thumbnail]);
-      // console.log(targetBook);
-        // let targetTitle = targetBook.title;
-        // console.log(targetTitle);
-        history.push({
-        pathname: "/editbook",
-        state: { title: `${targetBook.title}`}});
-        // history.push('/addbook', { title: `${targetTitle}`})
-        }
-
-  return (
-    <Card style={{ width: '233px' }} className='m-auto '>
-      <CardImg
-        top
-        style={{ width: '100%', height: '233px' }}
-        src={thumbnail}
-        alt={title}
-      />
-      <CardBody>
-        <CardTitle className='card-title'>{title}</CardTitle>
-        <Button onClick={toggle}>More info</Button>
-      </CardBody>
-      <Modal isOpen={modal} toggle={toggle}>
-        <div className='modal-header d-flex justify-content-center'>
-          <h5 className='modal-title text-center' id='exampleModalLabel'>
-            {title}
-          </h5>
-          <button
-            aria-label='Close'
-            className='close'
-            type='button'
-            onClick={toggle}
-          >
-            <span aria-hidden={true}>X</span>
-          </button>
-        </div>
-        <div className='modal-body'>
-          <div className='d-flex justify-content-between ml-3'>
-            <img src={thumbnail} alt={title} style={{ height: '233px' }} />
-            <div>
-              <p>Authors : {authors}</p>
-              <p>Category : {category}</p>
-
-            </div>
-          </div>
-          <div className='mt-3'><p>Publisher's Description: {description}</p></div>
-          <div className='mt-3'><p>Persional Review: {personalReview}</p></div>
-        </div>
-        <div className='modal-footer'>
-
-          <div className='divider'></div>
-          <div>
-          {/* <a href='/addbook' color='secondary' onClick={log} >Add to Bookshelf
+	return (
+		<Card style={{ width: '233px' }} className="m-auto ">
+			<CardImg top style={{ width: '100%', height: '233px' }} src={thumbnail} alt={title} />
+			<CardBody>
+				<CardTitle className="card-title">{title}</CardTitle>
+				<Button onClick={toggle}>More info</Button>
+			</CardBody>
+			<Modal isOpen={modal} toggle={toggle}>
+				<div className="modal-header d-flex justify-content-center">
+					<h5 className="modal-title text-center" id="exampleModalLabel">
+						{title}
+					</h5>
+					<button aria-label="Close" className="close" type="button" onClick={toggle}>
+						<span aria-hidden={true}>X</span>
+					</button>
+				</div>
+				<div className="modal-body">
+					<div className="d-flex justify-content-between ml-3">
+						<img src={thumbnail} alt={title} style={{ height: '233px' }} />
+						<div>
+							<p>Authors : {authors}</p>
+							<p>Category : {category}</p>
+						</div>
+					</div>
+					<div className="mt-3">
+						<p>Publisher's Description: {description}</p>
+					</div>
+					<div className="mt-3">
+						<p>Persional Review: {personalreview}</p>
+					</div>
+				</div>
+				<div className="modal-footer">
+					<div className="divider" />
+					<div>
+						{/* <a href='/addbook' color='secondary' onClick={log} >Add to Bookshelf
               </a> */}
-                <button
-                    className="btn btn-secondary float-right"
-                    onClick={handleEdit}
-                >
-                  Edit
-                </button>
-                <button
-                    className="btn btn-secondary float-right" 
-                    onClick={handleDelete}
-                >
-                  Delete
-                </button>
-          </div>
-        </div>
-      </Modal>
-    </Card>
-  );
+						<button className="btn btn-secondary float-right" onClick={redirectToEdit}>
+							Edit
+						</button>
+						<button className="btn btn-secondary float-right" onClick={handleDelete}>
+							Delete
+						</button>
+						<button className="btn btn-secondary float-right" onClick={log}>
+							Log
+						</button>
+					</div>
+				</div>
+			</Modal>
+		</Card>
+	);
 };
 
 export default UserBookCard;
-
