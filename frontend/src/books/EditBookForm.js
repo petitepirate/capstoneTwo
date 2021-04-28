@@ -22,10 +22,6 @@ function EditBookForm() {
 	// switch to use our fancy limited-time-display message hook
 	// const [saveConfirmed, setSaveConfirmed] = useState(false);
 	// const [saveConfirmed, setSaveConfirmed] = useTimedMessage()
-	const log = () => {
-		let data = id;
-		console.log(data);
-	};
 
 	console.debug(
 		//   "ProfileForm",
@@ -58,9 +54,6 @@ function EditBookForm() {
 			thumbnail: formData.thumbnail,
 			username: currentUser.username
 		};
-		console.log(data);
-		// let username = formData.username;
-		// let addBook;
 
 		try {
 			await BookWormApi.saveBookEdit(data, id);
@@ -167,7 +160,6 @@ function EditBookForm() {
 						<button className="btn btn-primary btn-block mt-4" onClick={handleSubmit}>
 							Edit Book
 						</button>
-						<button onClick={log}>Log?</button>
 					</form>
 				</div>
 			</div>

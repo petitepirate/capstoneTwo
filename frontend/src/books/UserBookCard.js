@@ -18,7 +18,7 @@ const UserBookCard = ({ thumbnail, title, description, authors, personalreview, 
 	//   ${id}, ${title}, ${authors}, ${description}, ${thumbnail}
 	// }`)
 
-	const log = () => console.log(id, title);
+	const log = () => console.log(id, title, authors);
 
 	// async function deleteBook() {
 	//   await BookWormApi.remove(id);
@@ -80,15 +80,15 @@ const UserBookCard = ({ thumbnail, title, description, authors, personalreview, 
 					<div className="d-flex justify-content-between ml-3">
 						<img src={thumbnail} alt={title} style={{ height: '233px' }} />
 						<div>
-							<p>Authors : {authors}</p>
-							<p>Category : {category}</p>
+							<p>Authors : {authors ? authors.replace(/,/g, ', ') : 'Authors Unknown'}</p>
+							<p>Category : {category ? category : 'To Be Categorized'}</p>
 						</div>
 					</div>
 					<div className="mt-3">
-						<p>Publisher's Description: {description}</p>
+						<p>Publisher's Description: {description ? description : 'No Description'}</p>
 					</div>
 					<div className="mt-3">
-						<p>Persional Review: {personalreview}</p>
+						<p>Persional Review: {personalreview ? personalreview : 'None'}</p>
 					</div>
 				</div>
 				<div className="modal-footer">

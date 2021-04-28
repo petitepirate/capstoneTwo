@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-// import { Link} from "react-router";
-// import props from 'prop-types';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
 
 const SearchBookCard = ({
@@ -31,13 +29,6 @@ const SearchBookCard = ({
 		});
 	};
 
-	const log = () => {
-		console.log(title);
-		console.log(authors);
-		console.log(description);
-		console.log(thumbnail);
-	};
-
 	return (
 		<Card style={{ width: '233px' }} className="m-auto ">
 			<CardImg top style={{ width: '100%', height: '233px' }} src={thumbnail} alt={title} />
@@ -58,13 +49,13 @@ const SearchBookCard = ({
 					<div className="d-flex justify-content-between ml-3">
 						<img src={thumbnail} alt={title} style={{ height: '233px' }} />
 						<div>
-							<p>Page Count: {pageCount}</p>
-							<p>Language : {language}</p>
-							<p>Authors : {authors ? authors.join(', ') : ''}</p>
-							<p>Publisher : {publisher}</p>
+							<p>Page Count: {pageCount ? pageCount : 'Page Count Unknown'}</p>
+							<p>Language : {language ? language : 'Language Unknown'} </p>
+							<p>Authors : {authors ? authors.join(', ') : 'Authors Unknown'}</p>
+							<p>Publisher : {publisher ? publisher : 'Publisher Unknown'}</p>
 						</div>
 					</div>
-					<div className="mt-3">{description}</div>
+					<div className="mt-3">{description ? description : 'Description Unknown'}</div>
 				</div>
 				<div className="modal-footer">
 					<div className="left-silde">
@@ -94,9 +85,6 @@ const SearchBookCard = ({
 					</div>
 					<div className="divider" />
 					<div>
-						{/* <a href='/addbook' color='secondary' onClick={log} >Add to Bookshelf
-              </a> */}
-						<button onClick={log}>Log?</button>
 						<button className="btn btn-primary float-right" onClick={redirect}>
 							Add to Shelf
 						</button>

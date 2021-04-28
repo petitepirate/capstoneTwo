@@ -18,9 +18,9 @@ class Book {
 
 	static async create({ title, authors, description, personalreview, category, thumbnail, username }) {
 		const duplicateCheck = await db.query(
-			`SELECT title
+			`SELECT title, username
            FROM books
-           WHERE title = $1`,
+           WHERE title = $1 AND username LIKE '${username}';`,
 			[ title ]
 		);
 

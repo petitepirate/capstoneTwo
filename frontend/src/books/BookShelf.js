@@ -17,10 +17,7 @@ import './BookCard.css';
 
 function BookShelf() {
 	console.debug('BookShelf');
-	// const { currentUser } = useContext(UserContext);
-	// console.log(currentUser.username);
 	const [ books, setBooks ] = useState(null);
-	// const username = currentUser.username;
 
 	useEffect(function getBooksOnMount() {
 		console.debug('BookShelf useEffect getBooksOnMount');

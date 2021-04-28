@@ -7,6 +7,8 @@ import { useHistory } from 'react-router-dom';
 import Alert from '../common/Alert';
 
 function AddBookForm() {
+	const defaultThumbnail =
+		'https://images.unsplash.com/photo-1575709527142-a93ed587bb83?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80';
 	const { currentUser } = useContext(UserContext);
 	// const {targetBook} = useContext(TargetBookContext);
 	const [ formData, setFormData ] = useState({
@@ -22,9 +24,6 @@ function AddBookForm() {
 	// switch to use our fancy limited-time-display message hook
 	// const [saveConfirmed, setSaveConfirmed] = useState(false);
 	// const [saveConfirmed, setSaveConfirmed] = useTimedMessage()
-	const log = () => {
-		console.log(formData);
-	};
 
 	console.debug(
 		//   "ProfileForm",
@@ -54,7 +53,7 @@ function AddBookForm() {
 			description: formData.description,
 			personalreview: formData.personalreview,
 			category: formData.category,
-			thumbnail: formData.thumbnail,
+			thumbnail: formData.thumbnail ? formData.thumnnail : defaultThumbnail,
 			username: currentUser.username
 		};
 		// console.log(bookData);
@@ -167,7 +166,6 @@ function AddBookForm() {
 						<button className="btn btn-primary btn-block mt-4" onClick={handleSubmit}>
 							Add Book
 						</button>
-						<button onClick={log}>Log?</button>
 					</form>
 				</div>
 			</div>
