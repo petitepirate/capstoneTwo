@@ -19,28 +19,7 @@ function EditBookForm() {
 	});
 	const [ formErrors, setFormErrors ] = useState([]);
 
-	// switch to use our fancy limited-time-display message hook
-	// const [saveConfirmed, setSaveConfirmed] = useState(false);
-	// const [saveConfirmed, setSaveConfirmed] = useTimedMessage()
-
-	console.debug(
-		//   "ProfileForm",
-		//   "currentUser=", currentUser,
-		'formData=',
-		formData,
-		'formErrors=',
-		formErrors
-		// "saveConfirmed=", saveConfirmed,
-	);
-
-	/** on form submit:
-   * - attempt save to backend & report any errors
-   * - if successful
-   *   - clear previous error messages and password
-   *   - show save-confirmed message
-   *   - set current user info throughout the site
-   */
-	// const log = () => console.log(formData.title, currentUser);
+	console.debug('formData=', formData, 'formErrors=', formErrors);
 
 	async function handleSubmit(evt) {
 		evt.preventDefault();
@@ -73,10 +52,6 @@ function EditBookForm() {
 			thumnnail: ''
 		}));
 		setFormErrors([]);
-		// setSaveConfirmed(true);
-
-		// trigger reloading of user information throughout the site
-		// setCurrentUser(updatedUser);
 	}
 
 	/** Handle form data changing */
@@ -87,6 +62,10 @@ function EditBookForm() {
 			[name]: value
 		}));
 		setFormErrors([]);
+	}
+
+	function cancel() {
+		history.push('/bookshelf');
 	}
 
 	return (
@@ -152,13 +131,11 @@ function EditBookForm() {
 
 						{formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
 
-						{/* {saveConfirmed
-                  ?
-                  <Alert type="success" messages={["Updated successfully."]} />
-                  : null}   */}
-
-						<button className="btn btn-primary btn-block mt-4" onClick={handleSubmit}>
+						<button className="btn btn-secondary btn-block mt-4" onClick={handleSubmit}>
 							Edit Book
+						</button>
+						<button className="btn btn-secondary btn-block mt-4" onClick={cancel}>
+							Cancel
 						</button>
 					</form>
 				</div>

@@ -85,7 +85,7 @@ const SearchBookCard = ({
 					</div>
 					<div className="divider" />
 					<div>
-						<button className="btn btn-primary float-right" onClick={redirect}>
+						<button className="btn btn-secondary float-right" onClick={redirect}>
 							Add to Shelf
 						</button>
 					</div>

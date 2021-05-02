@@ -1,20 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-
-// import Alert from "../common/Alert";
 import BookWormApi from '../api/api';
 import UserContext from '../auth/UserContext';
-// import TargetBookContext from "./TargetBookContext";
-// import { useHistory } from "react-router-dom";
 import Alert from '../common/Alert';
 
-function BookForm() {
+function AddSearchedBook() {
 	const history = useHistory();
 	const location = useLocation();
 	const { currentUser } = useContext(UserContext);
-	// console.log('location: ', location.state);
 	const { title, authors, description, thumbnail } = location.state;
-
 	const [ formData, setFormData ] = useState({
 		title: `${title}`,
 		authors: `${authors}`,
@@ -24,15 +18,6 @@ function BookForm() {
 		thumbnail: `${thumbnail}`
 	});
 	const [ formErrors, setFormErrors ] = useState([]);
-
-	/** on form submit:
-   * - attempt save to backend & report any errors
-   * - if successful
-   *   - clear previous error messages and password
-   *   - show save-confirmed message
-   *   - set current user info throughout the site
-   */
-	// const log = () => console.log(formData.title, currentUser);
 
 	async function handleSubmit(evt) {
 		evt.preventDefault();
@@ -46,9 +31,6 @@ function BookForm() {
 			thumbnail: formData.thumbnail,
 			username: currentUser.username
 		};
-		// console.log(bookData);
-		// let username = formData.username;
-		// let addBook;
 
 		try {
 			await BookWormApi.saveBook(bookData);
@@ -67,10 +49,6 @@ function BookForm() {
 			thumbnail: ''
 		}));
 		setFormErrors([]);
-		// setSaveConfirmed(true);
-
-		// trigger reloading of user information throughout the site
-		// setCurrentUser(updatedUser);
 	}
 
 	/** Handle form data changing */
@@ -81,6 +59,10 @@ function BookForm() {
 			[name]: value
 		}));
 		setFormErrors([]);
+	}
+
+	function cancel() {
+		history.push('/booksearch');
 	}
 
 	return (
@@ -146,13 +128,11 @@ function BookForm() {
 
 						{formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
 
-						{/* {saveConfirmed
-                  ?
-                  <Alert type="success" messages={["Updated successfully."]} />
-                  : null}   */}
-
-						<button className="btn btn-primary btn-block mt-4" onClick={handleSubmit}>
+						<button className="btn btn-secondary btn-block mt-4" onClick={handleSubmit}>
 							Add Book
+						</button>
+						<button className="btn btn-secondary btn-block mt-4" onClick={cancel}>
+							Cancel
 						</button>
 					</form>
 				</div>
@@ -161,4 +141,4 @@ function BookForm() {
 	);
 }
 
-export default BookForm;
+export default AddSearchedBook;

@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
-import UserContext from "../auth/UserContext";
-import "./Navigation.css";
+import React, { useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import UserContext from '../auth/UserContext';
+import './Navigation.css';
 
 /** Navigation bar for site. Shows up on every page.
  *
@@ -12,66 +12,61 @@ import "./Navigation.css";
  */
 
 function Navigation({ logout }) {
-  const { currentUser } = useContext(UserContext);
-  console.debug("Navigation", "currentUser=", currentUser);
+	const { currentUser } = useContext(UserContext);
+	console.debug('Navigation', 'currentUser=', currentUser);
 
-  function loggedInNav() {
-    return (
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item mr-4">
-            <NavLink className="nav-link" to="/bookshelf">
-              Search
-            </NavLink>
-          </li>
-          <li className="nav-item mr-4">
-            <NavLink className="nav-link" to="/books">
-              Users Books
-            </NavLink>
-          </li>
-          {/* <li className="nav-item mr-4">
-            <NavLink className="nav-link" to="/addbook">
-              Add Book
-            </NavLink>
-          </li> */}
-          <li className="nav-item mr-4">
-            <NavLink className="nav-link" to="/profile">
-              Profile
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/" onClick={logout}>
-              Log out {currentUser.first_name || currentUser.username}
-            </Link>
-          </li>
-        </ul>
-    );
-  }
+	function loggedInNav() {
+		return (
+			<ul className="navbar-nav ml-auto">
+				<li className="nav-item mr-4">
+					<NavLink className="nav-link" to="/booksearch">
+						Search
+					</NavLink>
+				</li>
+				<li className="nav-item mr-4">
+					<NavLink className="nav-link" to="/bookshelf">
+						BookShelf
+					</NavLink>
+				</li>
+				<li className="nav-item mr-4">
+					<NavLink className="nav-link" to="/profile">
+						Profile
+					</NavLink>
+				</li>
+				<li className="nav-item">
+					<Link className="nav-link" to="/" onClick={logout}>
+						Log out {currentUser.first_name || currentUser.username}
+					</Link>
+				</li>
+			</ul>
+		);
+	}
 
-  function loggedOutNav() {
-    return (
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item mr-4">
-            <NavLink className="nav-link" to="/login">
-              Login
-            </NavLink>
-          </li>
-          <li className="nav-item mr-4">
-            <NavLink className="nav-link" to="/signup">
-              Sign Up
-            </NavLink>
-          </li>
-        </ul>
-    );
-  }
+	function loggedOutNav() {
+		return (
+			<ul className="navbar-nav ml-auto">
+				<li className="nav-item mr-4">
+					<NavLink className="nav-link" to="/login">
+						Login
+					</NavLink>
+				</li>
+				<li className="nav-item mr-4">
+					<NavLink className="nav-link" to="/signup">
+						Sign Up
+					</NavLink>
+				</li>
+			</ul>
+		);
+	}
 
-  return (
-      <nav className="Navigation navbar navbar-expand-md">
-        <Link className="navbar-brand" to="/">
-          BookWorm
-        </Link>
-        {currentUser ? loggedInNav() : loggedOutNav()}
-      </nav>
-  );
+	return (
+		<nav className="Navigation navbar navbar-expand-md">
+			<Link className="navbar-brand" to="/">
+				BookStak
+			</Link>
+			{currentUser ? loggedInNav() : loggedOutNav()}
+		</nav>
+	);
 }
 
 export default Navigation;

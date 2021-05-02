@@ -1,48 +1,25 @@
 import React, { useState, useContext } from 'react';
-// import Alert from "../common/Alert";
 import BookWormApi from '../api/api';
 import UserContext from '../auth/UserContext';
-// import TargetBookContext from "./TargetBookContext";
 import { useHistory } from 'react-router-dom';
 import Alert from '../common/Alert';
 
-function AddBookForm() {
+function AddUnavailableBook() {
 	const defaultThumbnail =
 		'https://images.unsplash.com/photo-1575709527142-a93ed587bb83?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80';
 	const { currentUser } = useContext(UserContext);
-	// const {targetBook} = useContext(TargetBookContext);
 	const [ formData, setFormData ] = useState({
 		title: '',
-		authors: /* {authors}*/ '',
-		description: /* {description}*/ '',
+		authors: '',
+		description: '',
 		personalreview: '',
 		categroy: '',
-		thumnnail: /* {thumbnail}*/ ''
+		thumnnail: ''
 	});
 	const [ formErrors, setFormErrors ] = useState([]);
 	const history = useHistory();
-	// switch to use our fancy limited-time-display message hook
-	// const [saveConfirmed, setSaveConfirmed] = useState(false);
-	// const [saveConfirmed, setSaveConfirmed] = useTimedMessage()
 
-	console.debug(
-		//   "ProfileForm",
-		//   "currentUser=", currentUser,
-		'formData=',
-		formData,
-		'formErrors=',
-		formErrors
-		// "saveConfirmed=", saveConfirmed,
-	);
-
-	/** on form submit:
-   * - attempt save to backend & report any errors
-   * - if successful
-   *   - clear previous error messages and password
-   *   - show save-confirmed message
-   *   - set current user info throughout the site
-   */
-	// const log = () => console.log(formData.title, currentUser);
+	console.debug('formData=', formData, 'formErrors=', formErrors);
 
 	async function handleSubmit(evt) {
 		evt.preventDefault();
@@ -56,15 +33,11 @@ function AddBookForm() {
 			thumbnail: formData.thumbnail ? formData.thumnnail : defaultThumbnail,
 			username: currentUser.username
 		};
-		// console.log(bookData);
-		// let username = formData.username;
-		// let addBook;
 
 		try {
 			await BookWormApi.saveBook(bookData);
-			history.push('/books');
+			history.push('/booksearch');
 		} catch (errors) {
-			debugger;
 			setFormErrors(errors);
 			return;
 		}
@@ -78,10 +51,6 @@ function AddBookForm() {
 			thumnnail: ''
 		}));
 		setFormErrors([]);
-		// setSaveConfirmed(true);
-
-		// trigger reloading of user information throughout the site
-		// setCurrentUser(updatedUser);
 	}
 
 	/** Handle form data changing */
@@ -92,6 +61,10 @@ function AddBookForm() {
 			[name]: value
 		}));
 		setFormErrors([]);
+	}
+
+	function cancel() {
+		history.push('/books');
 	}
 
 	return (
@@ -158,13 +131,11 @@ function AddBookForm() {
 
 						{formErrors.length ? <Alert type="danger" messages={formErrors} /> : null}
 
-						{/* {saveConfirmed
-                  ?
-                  <Alert type="success" messages={["Updated successfully."]} />
-                  : null}   */}
-
-						<button className="btn btn-primary btn-block mt-4" onClick={handleSubmit}>
+						<button className="btn btn-secondary btn-block mt-4" onClick={handleSubmit}>
 							Add Book
+						</button>
+						<button className="btn btn-secondary btn-block mt-4" onClick={cancel}>
+							Cancel
 						</button>
 					</form>
 				</div>
@@ -173,4 +144,4 @@ function AddBookForm() {
 	);
 }
 
-export default AddBookForm;
+export default AddUnavailableBook;

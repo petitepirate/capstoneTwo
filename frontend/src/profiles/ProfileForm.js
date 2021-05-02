@@ -1,16 +1,8 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import UserContext from '../auth/UserContext';
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
-// import Button from 'react-bootstrap/Button';
-// import Card from 'react-bootstrap/Card';
-// import Form from 'react-bootstrap/Form';
 import { useHistory } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 import BookWormApi from '../api/api';
-
-const MESSAGE_SHOW_PERIOD_IN_MSEC = 3000;
 
 function Profile() {
 	const history = useHistory();
@@ -23,10 +15,7 @@ function Profile() {
 		password: ''
 	});
 	const [ formErrors, setFormErrors ] = useState([]);
-
-	// switch to use our fancy limited-time-display message hook
 	const [ saveConfirmed, setSaveConfirmed ] = useState(false);
-	// const [saveConfirmed, setSaveConfirmed] = useTimedMessage()
 
 	console.debug(
 		'ProfileForm',
@@ -64,7 +53,6 @@ function Profile() {
 		try {
 			updatedUser = await BookWormApi.saveProfile(username, profileData);
 		} catch (errors) {
-			debugger;
 			setFormErrors(errors);
 			return;
 		}
@@ -86,6 +74,10 @@ function Profile() {
 			[name]: value
 		}));
 		setFormErrors([]);
+	}
+
+	function cancel() {
+		history.push('/bookshelf');
 	}
 
 	return (
@@ -140,8 +132,11 @@ function Profile() {
 
 						{saveConfirmed ? <Alert type="success" messages={[ 'Updated successfully.' ]} /> : null}
 
-						<button className="btn btn-primary btn-block mt-4" onClick={handleSubmit}>
+						<button className="btn btn-secondary btn-block mt-4" onClick={handleSubmit}>
 							Save Changes
+						</button>
+						<button className="btn btn-secondary btn-block mt-4" onClick={cancel}>
+							Cancel
 						</button>
 					</form>
 				</div>

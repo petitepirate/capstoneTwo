@@ -1,11 +1,10 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Homepage from '../homepage/Homepage';
-import BookList from '../books/BookList';
+import GoogleBookSearch from '../books/GoogleBooksSearch';
 import BookShelf from '../books/BookShelf';
-// import JobList from "../jobs/JobList";
-import BookForm from '../books/BookForm';
-import AddBookForm from '../books/AddBookForm';
+import AddSearchedBook from '../books/AddSearchedBook';
+import AddUnavailableBook from '../books/AddUnavailableBook';
 import EditBookForm from '../books/EditBookForm';
 import LoginForm from '../auth/LoginForm';
 import ProfileForm from '../profiles/ProfileForm';
@@ -22,8 +21,6 @@ import PrivateRoute from './PrivateRoute';
 
 function Routes({ login, signup }) {
 	console.debug('Routes', `login=${typeof login}`, `register=${typeof register}`);
-	console.log('---------------------------------------------');
-
 	return (
 		<div className="pt-5">
 			<Switch>
@@ -39,29 +36,25 @@ function Routes({ login, signup }) {
 					<SignupForm signup={signup} />
 				</Route>
 
-				<PrivateRoute exact path="/bookshelf">
-					<BookList />
+				<PrivateRoute exact path="/booksearch">
+					<GoogleBookSearch />
 				</PrivateRoute>
 
-				<PrivateRoute exact path="/books">
+				<PrivateRoute exact path="/bookshelf">
 					<BookShelf />
 				</PrivateRoute>
 
 				<PrivateRoute exact path="/addbook">
-					<AddBookForm />
+					<AddUnavailableBook />
 				</PrivateRoute>
 
 				<PrivateRoute exact path="/addsearchbook">
-					<BookForm />
+					<AddSearchedBook />
 				</PrivateRoute>
 
 				<PrivateRoute exact path="/editbook">
 					<EditBookForm />
 				</PrivateRoute>
-
-				{/* <PrivateRoute exact path="/bookshelf/:handle">
-            <BookDetail />
-          </PrivateRoute> */}
 
 				<PrivateRoute path="/profile">
 					<ProfileForm />

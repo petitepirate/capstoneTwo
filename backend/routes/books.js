@@ -6,7 +6,7 @@ const jsonschema = require('jsonschema');
 
 const express = require('express');
 const { BadRequestError } = require('../expressError');
-const { ensureLoggedIn } = require('../middleware/auth');
+const { ensureLoggedIn, ensureCorrectUser } = require('../middleware/auth');
 const Book = require('../models/book');
 const bookNewSchema = require('../schemas/bookNew.json');
 // const bookUpdateSchema = require("../schemas/bookUpdate.json");
@@ -37,7 +37,7 @@ router.post('/', ensureLoggedIn, async function(req, res, next) {
 get specific users books - all books
  */
 
-router.get('/', async function(req, res, next) {
+router.get('/', ensureLoggedIn, async function(req, res, next) {
 	const user = res.locals.user.username;
 
 	try {
@@ -51,7 +51,7 @@ router.get('/', async function(req, res, next) {
 
 //Filter to see only a certain category's books per each user
 
-router.get('/:category', async function(req, res, next) {
+router.get('/:category', ensureLoggedIn, async function(req, res, next) {
 	try {
 		const user = res.locals.user.username;
 		const params = req.params;
@@ -72,7 +72,7 @@ router.get('/:category', async function(req, res, next) {
  * Authorization required: admin
  */
 
-router.patch('/:id', async function(req, res, next) {
+router.patch('/:id', ensureLoggedIn, async function(req, res, next) {
 	try {
 		const validator = jsonschema.validate(req.body, bookUpdateSchema);
 		if (!validator.valid) {

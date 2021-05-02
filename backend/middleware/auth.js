@@ -1,11 +1,10 @@
-"use strict";
+'use strict';
 
 /** Convenience middleware to handle common auth cases in routes. */
 
-const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = require("../config");
-const { UnauthorizedError } = require("../expressError");
-
+const jwt = require('jsonwebtoken');
+const { SECRET_KEY } = require('../config');
+const { UnauthorizedError } = require('../expressError');
 
 /** Middleware: Authenticate user.
  *
@@ -16,16 +15,16 @@ const { UnauthorizedError } = require("../expressError");
  */
 
 function authenticateJWT(req, res, next) {
-  try {
-    const authHeader = req.headers && req.headers.authorization;
-    if (authHeader) {
-      const token = authHeader.replace(/^[Bb]earer /, "").trim();
-      res.locals.user = jwt.verify(token, SECRET_KEY);
-    }
-    return next();
-  } catch (err) {
-    return next();
-  }
+	try {
+		const authHeader = req.headers && req.headers.authorization;
+		if (authHeader) {
+			const token = authHeader.replace(/^[Bb]earer /, '').trim();
+			res.locals.user = jwt.verify(token, SECRET_KEY);
+		}
+		return next();
+	} catch (err) {
+		return next();
+	}
 }
 
 /** Middleware to use when they must be logged in.
@@ -34,17 +33,37 @@ function authenticateJWT(req, res, next) {
  */
 
 function ensureLoggedIn(req, res, next) {
-  try {
-    if (!res.locals.user) throw new UnauthorizedError();
-    return next();
-  } catch (err) {
-    return next(err);
-  }
+	try {
+		if (!res.locals.user) throw new UnauthorizedError();
+		return next();
+	} catch (err) {
+		return next(err);
+	}
 }
 
+function ensureCorrectUser(req, res, next) {
+	try {
+		const tokenStr = req.body._token || req.query._token;
 
+		let token = jwt.verify(tokenStr, SECRET);
+		req.username = token.username;
+
+		if (token.username === req.params.username) {
+			return next();
+		}
+
+		// throw an error, so we catch it in our catch, below
+		throw new Error();
+	} catch (e) {
+		const unauthorized = new Error('You are not authorized.');
+		unauthorized.status = 401;
+
+		return next(unauthorized);
+	}
+}
 
 module.exports = {
-  authenticateJWT,
-  ensureLoggedIn
+	authenticateJWT,
+	ensureLoggedIn,
+	ensureCorrectUser
 };

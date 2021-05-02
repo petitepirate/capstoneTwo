@@ -1,19 +1,9 @@
-import React, { useState, useEffect /*useContext*/ } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchForm from '../common/SearchForm';
 import BookWormApi from '../api/api';
-import UserBookCard from './UserBookCard';
+import BookShelfCard from './BookShelfCard';
 import LoadingSpinner from '../common/LoadingSpinner';
-import 'react-toastify/dist/ReactToastify.min.css';
-import './BookCard.css';
-/** Show page with list of companies.
- *
- * On mount, loads companies from API.
- * Re-loads filtered companies on submit from search form.
- *
- * This is routed to at /companies
- *
- * Routes -> { CompanyCard, SearchForm }
- */
+import './BookShelf.css';
 
 function BookShelf() {
 	console.debug('BookShelf');
@@ -29,7 +19,7 @@ function BookShelf() {
 		setBooks(books);
 	}
 
-	/** Triggered by search form submit; reloads companies. */
+	/** Triggered by search form submit; reloads books of only that category */
 	async function getCategorizedBooks(category) {
 		let books = await BookWormApi.getFilteredBooks(category);
 		setBooks(books);
@@ -42,11 +32,11 @@ function BookShelf() {
 			<SearchForm searchFor={getCategorizedBooks} />
 
 			{books.length ? (
-				<div className="container my-5" /*key={b.id}*/>
+				<div className="container my-5">
 					<div className="row">
 						{books.map((b) => (
 							<div className="col-lg-4 mb-3" key={b.id}>
-								<UserBookCard
+								<BookShelfCard
 									id={b.id}
 									title={b.title}
 									authors={b.authors}
