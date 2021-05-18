@@ -112,6 +112,7 @@ function AddSearchedBook() {
 							<input
 								name="category"
 								className="form-control"
+								placeholder="Categorize this book"
 								value={formData.category}
 								onChange={handleChange}
 							/>

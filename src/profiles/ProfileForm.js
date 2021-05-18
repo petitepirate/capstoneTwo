@@ -3,6 +3,7 @@ import UserContext from '../auth/UserContext';
 import { useHistory } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 import BookWormApi from '../api/api';
+import './ProfileForm.css';
 
 function Profile() {
 	const history = useHistory();

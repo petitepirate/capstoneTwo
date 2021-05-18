@@ -50,7 +50,9 @@ function BookShelf() {
 					</div>
 				</div>
 			) : (
-				<p className="lead">Sorry, no results were found!</p>
+				<p className="lead">
+					Sorry, no results were found. Visit the search page to find some books for your shelf!
+				</p>
 			)}
 		</div>
 	);

@@ -25,10 +25,10 @@ function Homepage() {
 					<h2>Welcome Back, {currentUser.firstName || currentUser.username}!</h2>
 				) : (
 					<p>
-						<Link className="btn btn-primary font-weight-bold mr-3" to="/login">
+						<Link className="btn btn-secondary font-weight-bold mr-3" to="/login">
 							Log in
 						</Link>
-						<Link className="btn btn-primary font-weight-bold" to="/signup">
+						<Link className="btn btn-secondary font-weight-bold" to="/signup">
 							Sign up
 						</Link>
 					</p>

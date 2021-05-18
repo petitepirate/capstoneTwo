@@ -112,7 +112,7 @@ function GoogleBookSearch() {
 				<div className="container my-5">
 					<div className="row">{items}</div>
 					<div className="row justify-content-center text-center">
-						<p>
+						<p className="addbook">
 							Cant find what you're looking for? Add book not found in search <a href="/addbook">here</a>
 						</p>
 					</div>

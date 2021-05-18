@@ -25,12 +25,12 @@ function SearchForm({ searchFor }) {
 				<input
 					className="form-control form-control-lg flex-grow-1"
 					name="searchTerm"
-					placeholder="Enter search term.."
+					placeholder="Enter book category to filter your library"
 					value={searchTerm}
 					onChange={handleChange}
 				/>
 				<button type="submit" className="btn btn-lg btn-secondary">
-					Submit
+					Filter
 				</button>
 			</form>
 		</div>

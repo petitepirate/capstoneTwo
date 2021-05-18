@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
+import './BookCard.css';
 
 const SearchBookCard = ({
 	thumbnail,
