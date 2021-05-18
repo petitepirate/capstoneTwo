@@ -28,7 +28,7 @@ function BookShelf() {
 	if (!books) return <LoadingSpinner />;
 
 	return (
-		<div className="CompanyList col-md-8 offset-md-2">
+		<div className="BookShelf col-md-8 offset-md-2">
 			<SearchForm searchFor={getCategorizedBooks} />
 
 			{books.length ? (

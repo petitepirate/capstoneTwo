@@ -67,7 +67,7 @@ const SearchBookCard = ({
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							Preview Link
+							Preview
 						</a>
 					</div>
 					<div className="divider" />
@@ -80,7 +80,7 @@ const SearchBookCard = ({
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							Info Link
+							Info
 						</a>
 					</div>
 					<div className="divider" />

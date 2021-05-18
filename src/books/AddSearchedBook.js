@@ -34,7 +34,7 @@ function AddSearchedBook() {
 
 		try {
 			await BookWormApi.saveBook(bookData);
-			history.push('/books');
+			history.push('/bookshelf');
 		} catch (errors) {
 			setFormErrors(errors);
 			return;

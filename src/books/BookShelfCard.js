@@ -12,6 +12,7 @@ const BookShelfCard = ({ thumbnail, title, description, authors, personalreview,
 	const toggle = () => setModal(!modal);
 	const { currentUser } = useContext(UserContext);
 	const history = useHistory();
+	const reload = () => window.location.reload();
 
 	async function handleDelete(evt) {
 		evt.preventDefault();
@@ -29,6 +30,8 @@ const BookShelfCard = ({ thumbnail, title, description, authors, personalreview,
 
 		try {
 			await BookWormApi.deleteBook(bookData);
+			toggle();
+			reload(); //probably should use some form of componentdidmount
 		} catch (errors) {
 			console.log('unable to delete book');
 			console.log(bookData);
