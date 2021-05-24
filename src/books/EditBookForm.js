@@ -4,6 +4,14 @@ import UserContext from '../auth/UserContext';
 import { useLocation, useHistory } from 'react-router-dom';
 import Alert from '../common/Alert';
 
+/** Form to edit a book that the user selects.
+ *
+ * Displays EditBookForm  and handles changes to local form state.
+ * Submitting the form calls the API to save
+ *
+ * Routed as /addsearchbook
+ */
+
 function EditBookForm() {
 	const { currentUser } = useContext(UserContext);
 	const history = useHistory();
@@ -36,7 +44,7 @@ function EditBookForm() {
 
 		try {
 			await BookWormApi.saveBookEdit(data, id);
-			history.push(`/books`);
+			history.push(`/bookshelf`);
 		} catch (errors) {
 			debugger;
 			setFormErrors(errors);

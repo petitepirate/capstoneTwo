@@ -4,7 +4,16 @@ import UserContext from '../auth/UserContext';
 import { useHistory } from 'react-router-dom';
 import Alert from '../common/Alert';
 
+/** Form to add a book that can not be found from a google books search.
+ *
+ * Displays AddUnavailableBook form and handles changes to local form state.
+ * Submitting the form calls the API to save.
+ *
+ * Routed as /addbook
+ */
+
 function AddUnavailableBook() {
+	//sets a default photo for unavailable books
 	const defaultThumbnail =
 		'https://images.unsplash.com/photo-1575709527142-a93ed587bb83?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&q=80';
 	const { currentUser } = useContext(UserContext);

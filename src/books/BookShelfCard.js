@@ -6,6 +6,13 @@ import UserContext from '../auth/UserContext';
 import BookWormApi from '../api/api';
 import './BookShelf.css';
 
+/** Show information about a book in popup modal
+ *
+ * Is rendered by BookShelf to show a "card" for each book.
+ *
+ * BookShelf -> BookShelfCard
+ */
+
 const BookShelfCard = ({ thumbnail, title, description, authors, personalreview, category, id }) => {
 	// States
 	const [ modal, setModal ] = useState(false);

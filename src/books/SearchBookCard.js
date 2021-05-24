@@ -4,6 +4,14 @@ import { useHistory } from 'react-router-dom';
 import { Card, CardTitle, CardImg, CardBody, Button, Modal } from 'reactstrap';
 import './BookCard.css';
 
+/** Show information about a book in popup modal
+ *
+ * Is rendered by GoogleBookSearch to show a "card" for each book.
+ * Modal card allows user to see info or preview from Google Books
+ * Or to add the book to the user's bookshelf.
+ * GoogleBookSearch-> BookSearchCard
+ */
+
 const SearchBookCard = ({
 	thumbnail,
 	title,

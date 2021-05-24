@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="w-100 h-100"
+  >
+    <div
+      class="main-image d-flex justify-content-center align-items-center flex-column"
+    >
+      <div
+        class="filter"
+      />
+      <h2
+        class="display-2 text-center text-white mb-3"
+        style="z-index: 2;"
+      >
+        Search Books
+      </h2>
+      <div
+        style="width: 60%; z-index: 2;"
+      >
+        <div
+          class="mb-3 input-group input-group-lg"
+        >
+          <input
+            class="form-control"
+            placeholder="Book Search"
+            type="text"
+            value=""
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-secondary"
+              type="submit"
+            >
+              <i
+                class="fas fa-search"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="d-flex text-white justify-content-center"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              class=""
+              for="maxResults"
+            >
+              Max Results
+            </label>
+            <input
+              class="form-control"
+              id="maxResults"
+              placeholder="Max Results"
+              type="number"
+              value="3"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="container my-5"
+    >
+      <div
+        class="row"
+      />
+      <div
+        class="row justify-content-center text-center"
+      >
+        <p
+          class="addbook"
+        >
+          Cant find what you're looking for? Add book not found in search 
+          <a
+            href="/addbook"
+          >
+            here
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

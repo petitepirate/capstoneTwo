@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Alert from '../common/Alert';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 /** Login form.
  *
@@ -20,18 +21,27 @@ function LoginForm({ login }) {
 		password: ''
 	});
 	const [ formErrors, setFormErrors ] = useState([]);
-
+	const [ loading, setLoading ] = useState(false);
 	console.debug('LoginForm', 'login=', typeof login, 'formData=', formData, 'formErrors', formErrors);
 
 	/** Handle form submit:
    *
    * Calls login func prop and, if successful, redirect to /bookshelf
    */
+	if (loading) {
+		return (
+			<div className="d-flex justify-content-center mt-3">
+				<LoadingSpinner />;
+			</div>
+		);
+	}
 
 	async function handleSubmit(evt) {
+		setLoading(true);
 		evt.preventDefault();
 		let result = await login(formData);
 		if (result.success) {
+			setLoading(false);
 			history.push('/bookshelf');
 		} else {
 			setFormErrors(result.errors);

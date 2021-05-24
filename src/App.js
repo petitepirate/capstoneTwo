@@ -28,7 +28,6 @@ export const TOKEN_STORAGE_ID = 'bookworm-token';
 
 function App() {
 	const [ infoLoaded, setInfoLoaded ] = useState(false);
-	// const [applicationIds, setApplicationIds] = useState(new Set([]));
 	const [ currentUser, setCurrentUser ] = useState(null);
 	const [ token, setToken ] = useLocalStorage(TOKEN_STORAGE_ID);
 
@@ -50,7 +49,6 @@ function App() {
 						BookWormApi.token = token;
 						let currentUser = await BookWormApi.getCurrentUser(username);
 						setCurrentUser(currentUser);
-						// setApplicationIds(new Set(currentUser.applications));
 					} catch (err) {
 						console.error('App loadUserInfo: problem loading', err);
 						setCurrentUser(null);
@@ -78,7 +76,6 @@ function App() {
    *
    * Automatically logs them in (set token) upon signup.
    *
-   * Make sure you await this function and check its return value!
    */
 	async function signup(signupData) {
 		try {
@@ -93,7 +90,6 @@ function App() {
 
 	/** Handles site-wide login.
    *
-   * Make sure you await this function and check its return value!
    */
 	async function login(loginData) {
 		try {

@@ -4,10 +4,19 @@ import BookWormApi from '../api/api';
 import UserContext from '../auth/UserContext';
 import Alert from '../common/Alert';
 
+/** Form to add a book that was returned from a google books search.
+ *
+ * Displays AddSearchedBook form and handles changes to local form state.
+ * Submitting the form calls the API to save
+ *
+ * Routed as /addsearchbook
+ */
+
 function AddSearchedBook() {
 	const history = useHistory();
 	const location = useLocation();
 	const { currentUser } = useContext(UserContext);
+	//location.state is used to recieve the book information passed from the search.
 	const { title, authors, description, thumbnail } = location.state;
 	const [ formData, setFormData ] = useState({
 		title: `${title}`,
@@ -32,6 +41,7 @@ function AddSearchedBook() {
 			username: currentUser.username
 		};
 
+		//tries saving the book to the api/database and then redirects to user's bookshelf when succssful, or returns errors
 		try {
 			await BookWormApi.saveBook(bookData);
 			history.push('/bookshelf');

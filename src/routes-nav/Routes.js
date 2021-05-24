@@ -10,6 +10,7 @@ import LoginForm from '../auth/LoginForm';
 import ProfileForm from '../profiles/ProfileForm';
 import SignupForm from '../auth/SignupForm';
 import PrivateRoute from './PrivateRoute';
+import About from '../homepage/About';
 
 /** Site-wide routes.
  *
@@ -35,6 +36,10 @@ function Routes({ login, signup }) {
 				<Route exact path="/signup">
 					<SignupForm signup={signup} />
 				</Route>
+
+				<PrivateRoute exact path="/about">
+					<About />
+				</PrivateRoute>
 
 				<PrivateRoute exact path="/booksearch">
 					<GoogleBookSearch />

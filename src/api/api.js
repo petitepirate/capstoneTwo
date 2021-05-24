@@ -25,33 +25,31 @@ class BookWormApi {
 	// Individual API routes
 
 	/** Get the current user. */
-
 	static async getCurrentUser(username) {
 		let res = await this.request(`users/${username}`);
 		return res.user;
 	}
 
-	/** Get companies (filtered by name if not undefined) */
-
+	/** Get user's books  */
 	static async getBooks(username) {
 		let res = await this.request('books', { username });
 		return res.books;
 	}
 
-	/** Get details on a company by handle. */
+	/** Get details on a book by its title. */
 
 	static async getBook(title) {
 		let res = await this.request(`books/${title}`);
 		return res.book;
 	}
 
+	/** Filter books by category */
 	static async getFilteredBooks(category) {
 		let res = await this.request(`books/${category}`);
 		return res.books;
 	}
 
 	/** Get token for login from username, password. */
-
 	static async login(data) {
 		let res = await this.request(`auth/token`, data, 'post');
 		return res.token;
@@ -65,24 +63,24 @@ class BookWormApi {
 	}
 
 	/** Save user profile page. */
-
 	static async saveProfile(username, data) {
 		let res = await this.request(`users/${username}`, data, 'patch');
 		return res.user;
 	}
 
-	// static async saveBook()
+	/** Saves book to database. */
 	static async saveBook(data) {
 		let res = await this.request(`books`, data, 'post');
 		return res.book;
 	}
 
-	// static async saveBook()
+	/** Saves edits to a user's book by its ID number. */
 	static async saveBookEdit(data, id) {
 		let res = await this.request(`books/${id}`, data, 'patch');
 		return res.book;
 	}
 
+	/** Deletes a book by its ID number */
 	static async deleteBook(data) {
 		let res = await this.request(`books/${data.id}`, data, 'delete');
 		return res.book;

@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
-import { InputGroup, Input, InputGroupAddon, Button, FormGroup, Label, Spinner } from 'reactstrap';
+import { InputGroup, Input, InputGroupAddon, Button, FormGroup, Label } from 'reactstrap';
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 import SearchBookCard from './SearchBookCard.js';
 import './BookShelf.css';
+import LoadingSpinner from '../common/LoadingSpinner';
+
+/** Component to handle searching for books in Google Books api.
+ *
+ * Displays book search and handles changes to local form state.
+ * Submitting the form calls the API to search and returns a list of
+ * cards generated from the data returned from the search.
+ * Routed as /booksearch
+ */
 
 function GoogleBookSearch() {
 	// States
@@ -82,7 +91,7 @@ function GoogleBookSearch() {
 		if (loading) {
 			return (
 				<div className="d-flex justify-content-center mt-3">
-					<Spinner style={{ width: '3rem', height: '3rem' }} />
+					<LoadingSpinner />;
 				</div>
 			);
 		} else {

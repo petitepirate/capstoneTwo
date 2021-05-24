@@ -5,6 +5,15 @@ import BookShelfCard from './BookShelfCard';
 import LoadingSpinner from '../common/LoadingSpinner';
 import './BookShelf.css';
 
+/** Show page with list of the user's books 
+ *
+ * On mount, loads books from API.
+ * Re-loads filtered books on submit from search form.
+ *
+ * This is routed to at /bookshelf
+
+ */
+
 function BookShelf() {
 	console.debug('BookShelf');
 	const [ books, setBooks ] = useState(null);

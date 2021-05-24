@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="m-auto  card"
+    style="width: 233px;"
+  >
+    <img
+      class="card-img-top"
+      style="width: 100%; height: 233px;"
+    />
+    <div
+      class="card-body"
+    >
+      <div
+        class="card-title card-title"
+      />
+      <button
+        class="btn btn-secondary"
+        type="button"
+      >
+        More info
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
